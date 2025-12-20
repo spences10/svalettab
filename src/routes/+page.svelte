@@ -67,86 +67,84 @@
 	<div
 		class="flex flex-wrap items-center justify-center gap-4 md:gap-6"
 	>
-		{#key generation}
-			{#each palette.colors as color, i}
-				{@const font = fonts[i]}
-				{@const text_color = get_contrast_color(color)}
+		{#each palette.colors as color, i (`${generation}-${i}`)}
+			{@const font = fonts[i]}
+			{@const text_color = get_contrast_color(color)}
 
-				<div
-					class="group relative h-[380px] w-[220px] cursor-pointer overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl md:h-[430px] md:w-[250px]"
-					in:fly={{
-						y: 80,
-						duration: 400,
-						delay: i * 60,
-						easing: backOut,
-					}}
+			<div
+				class="group relative h-[380px] w-[220px] cursor-pointer overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl md:h-[430px] md:w-[250px]"
+				in:fly={{
+					y: 80,
+					duration: 400,
+					delay: i * 60,
+					easing: backOut,
+				}}
+			>
+				<!-- Color section (top) -->
+				<button
+					class="relative flex h-[65%] w-full flex-col items-center justify-center overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-inset"
+					style="background-color: {color};"
+					onclick={() => copy_hex(color)}
+					aria-label="Copy {color} to clipboard"
 				>
-					<!-- Color section (top) -->
-					<button
-						class="relative flex h-[65%] w-full flex-col items-center justify-center overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-inset"
-						style="background-color: {color};"
-						onclick={() => copy_hex(color)}
-						aria-label="Copy {color} to clipboard"
+					<!-- Font sample text -->
+					<span
+						class="text-6xl font-bold opacity-90 md:text-7xl"
+						style="font-family: {font.family}; color: {text_color};"
 					>
-						<!-- Font sample text -->
-						<span
-							class="text-6xl font-bold opacity-90 md:text-7xl"
-							style="font-family: {font.family}; color: {text_color};"
-						>
-							Ag
-						</span>
-						<span
-							class="mt-2 text-2xl opacity-70 md:text-3xl"
-							style="font-family: {font.family}; color: {text_color};"
-						>
-							AaBbCc
-						</span>
+						Ag
+					</span>
+					<span
+						class="mt-2 text-2xl opacity-70 md:text-3xl"
+						style="font-family: {font.family}; color: {text_color};"
+					>
+						AaBbCc
+					</span>
 
-						<!-- Hex overlay on hover -->
-						<div
-							class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity group-hover:opacity-100"
-						>
-							<span
-								class="rounded bg-black/50 px-3 py-1 font-mono text-sm tracking-wider text-white uppercase"
-							>
-								{color}
-							</span>
-						</div>
-
-						<!-- Dimple divider -->
-						<svg
-							class="absolute -bottom-px left-0 w-full"
-							viewBox="0 0 250 12"
-							preserveAspectRatio="none"
-						>
-							<path
-								d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
-								fill="white"
-							/>
-						</svg>
-					</button>
-
-					<!-- Info section (bottom) -->
-					<button
-						class="flex h-[35%] w-full flex-col items-center justify-center px-4 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-inset"
-						onclick={() => open_fontsource(font)}
-						aria-label="Open {font.name} on Fontsource"
+					<!-- Hex overlay on hover -->
+					<div
+						class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity group-hover:opacity-100"
 					>
 						<span
-							class="text-lg font-semibold text-slate-800 transition-colors group-hover:text-slate-600 md:text-xl"
-							style="font-family: {font.family};"
+							class="rounded bg-black/50 px-3 py-1 font-mono text-sm tracking-wider text-white uppercase"
 						>
-							{font.name}
+							{color}
 						</span>
-						<span
-							class="mt-1 text-xs tracking-wider text-slate-400 uppercase"
-						>
-							{font.category}
-						</span>
-					</button>
-				</div>
-			{/each}
-		{/key}
+					</div>
+
+					<!-- Dimple divider -->
+					<svg
+						class="absolute -bottom-px left-0 w-full"
+						viewBox="0 0 250 12"
+						preserveAspectRatio="none"
+					>
+						<path
+							d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
+							fill="white"
+						/>
+					</svg>
+				</button>
+
+				<!-- Info section (bottom) -->
+				<button
+					class="flex h-[35%] w-full flex-col items-center justify-center px-4 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-inset"
+					onclick={() => open_fontsource(font)}
+					aria-label="Open {font.name} on Fontsource"
+				>
+					<span
+						class="text-lg font-semibold text-slate-800 transition-colors group-hover:text-slate-600 md:text-xl"
+						style="font-family: {font.family};"
+					>
+						{font.name}
+					</span>
+					<span
+						class="mt-1 text-xs tracking-wider text-slate-400 uppercase"
+					>
+						{font.category}
+					</span>
+				</button>
+			</div>
+		{/each}
 	</div>
 </main>
 
