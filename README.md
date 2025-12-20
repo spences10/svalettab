@@ -1,44 +1,62 @@
-# sv
+# Svalettab
 
-Everything you need to build a Svelte project, powered by
-[`sv`](https://github.com/sveltejs/cli).
+A modern replacement for
+[Palettab](https://github.com/tholman/palettab) — the beloved browser
+extension that's been abandoned for 10+ years. Built with SvelteKit
+and Fontsource.
 
-## Creating a project
+## What is it?
 
-If you're seeing this, you've probably already done this step.
-Congrats!
+A single-page app that displays a random color palette with font
+samples. Every refresh shows fresh inspiration. That's it.
 
-```sh
-# create a new project in the current directory
-npx sv create
+## Features
 
-# create a new project in my-app
-npx sv create my-app
+- **50 curated color palettes** — hand-picked for design inspiration
+- **18 variable fonts** — from Fontsource, beautifully rendered
+- **Click to copy** — tap any color to copy the hex code
+- **Font links** — click font names to explore on Fontsource
+- **Keyboard shortcuts** — press `Space` or `R` to refresh
+- **Smooth animations** — cards fly in with satisfying Svelte
+  transitions
+- **Responsive** — works on mobile and desktop
+- **Contrast-aware** — text automatically adjusts for readability
+
+## Tech Stack
+
+- [SvelteKit](https://kit.svelte.dev/) with Svelte 5 runes
+- [Tailwind CSS](https://tailwindcss.com/) v4
+- [Fontsource](https://fontsource.org/) variable fonts
+- No external API dependencies — everything bundled
+
+## Development
+
+```bash
+# Install dependencies
+pnpm install
+
+# Start dev server
+pnpm dev
+
+# Type check
+pnpm check
+
+# Build for production
+pnpm build
 ```
 
-## Developing
+## Keyboard Shortcuts
 
-Once you've created a project and installed dependencies with
-`npm install` (or `pnpm install` or `yarn`), start a development
-server:
+| Key     | Action               |
+| ------- | -------------------- |
+| `Space` | Generate new palette |
+| `R`     | Generate new palette |
 
-```sh
-npm run dev
+## Credits
 
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
-```
+Inspired by the original [Palettab](https://palettab.com/) by
+[Tim Holman](https://github.com/tholman).
 
-## Building
+## License
 
-To create a production version of your app:
-
-```sh
-npm run build
-```
-
-You can preview the production build with `npm run preview`.
-
-> To deploy your app, you may need to install an
-> [adapter](https://svelte.dev/docs/kit/adapters) for your target
-> environment.
+MIT
