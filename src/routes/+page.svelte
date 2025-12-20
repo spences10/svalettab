@@ -102,14 +102,14 @@
 						</span>
 					</div>
 
-					<!-- Curved dip divider -->
+					<!-- Dimple divider -->
 					<svg
 						class="absolute -bottom-px left-0 w-full"
-						viewBox="0 0 250 20"
+						viewBox="0 0 250 24"
 						preserveAspectRatio="none"
 					>
 						<path
-							d="M0,20 L0,0 Q125,40 250,0 L250,20 Z"
+							d="M0,24 L0,0 L95,0 Q125,28 155,0 L250,0 L250,24 Z"
 							fill="white"
 						/>
 					</svg>
