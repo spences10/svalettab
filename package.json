@@ -17,7 +17,7 @@
 		"test:e2e": "playwright test"
 	},
 	"devDependencies": {
-		"@eslint/compat": "^1.4.0",
+		"@eslint/compat": "^2.0.0",
 		"@eslint/js": "^9.39.1",
 		"@fontsource-variable/bitter": "^5.2.10",
 		"@fontsource-variable/crimson-pro": "^5.2.8",
