@@ -62,17 +62,17 @@
 <svelte:window onkeydown={handle_keydown} />
 
 <main
-	class="flex min-h-screen flex-col items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 p-4 pb-24 md:p-8 md:pb-32"
+	class="flex min-h-svh flex-col items-center justify-center bg-linear-to-br from-slate-100 to-slate-200 px-2 py-4 pb-32 sm:px-4 sm:pb-28 md:p-8 md:pb-32"
 >
 	<div
-		class="flex flex-wrap items-center justify-center gap-4 md:gap-6"
+		class="flex flex-wrap items-center justify-center gap-2 sm:gap-3 md:gap-6"
 	>
 		{#each palette.colors as color, i (`${generation}-${i}`)}
 			{@const font = fonts[i]}
 			{@const text_color = get_contrast_color(color)}
 
 			<div
-				class="group relative h-[380px] w-[220px] cursor-pointer overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl md:h-[430px] md:w-[250px]"
+				class="group relative h-50 w-27.5 cursor-pointer overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl sm:h-70 sm:w-38.75 md:h-107.5 md:w-62.5"
 				in:fly={{
 					y: 80,
 					duration: 400,
@@ -89,13 +89,13 @@
 				>
 					<!-- Font sample text -->
 					<span
-						class="text-6xl font-bold opacity-90 md:text-7xl"
+						class="text-3xl font-bold opacity-90 sm:text-5xl md:text-7xl"
 						style="font-family: {font.family}; color: {text_color};"
 					>
 						Ag
 					</span>
 					<span
-						class="mt-2 text-2xl opacity-70 md:text-3xl"
+						class="mt-1 text-sm opacity-70 sm:mt-2 sm:text-xl md:text-3xl"
 						style="font-family: {font.family}; color: {text_color};"
 					>
 						AaBbCc
@@ -127,18 +127,18 @@
 
 				<!-- Info section (bottom) -->
 				<button
-					class="flex h-[35%] w-full flex-col items-center justify-center px-4 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-inset"
+					class="flex h-[35%] w-full flex-col items-center justify-center px-2 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-inset sm:px-3 md:px-4"
 					onclick={() => open_fontsource(font)}
 					aria-label="Open {font.name} on Fontsource"
 				>
 					<span
-						class="text-lg font-semibold text-slate-800 transition-colors group-hover:text-slate-600 md:text-xl"
+						class="text-xs font-semibold text-slate-800 transition-colors group-hover:text-slate-600 sm:text-sm md:text-xl"
 						style="font-family: {font.family};"
 					>
 						{font.name}
 					</span>
 					<span
-						class="mt-1 text-xs tracking-wider text-slate-400 uppercase"
+						class="mt-0.5 text-[9px] tracking-wider text-slate-400 uppercase sm:mt-1 sm:text-[11px] md:text-xs"
 					>
 						{font.category}
 					</span>
@@ -150,26 +150,29 @@
 
 <!-- Palette info bar -->
 <div
-	class="fixed right-0 bottom-0 left-0 flex flex-col items-center justify-center bg-white/80 py-4 backdrop-blur-sm"
+	class="fixed right-0 bottom-0 left-0 flex flex-col items-center justify-center bg-white/80 py-3 pb-[calc(0.75rem+env(safe-area-inset-bottom))] backdrop-blur-sm sm:py-4 sm:pb-[calc(1rem+env(safe-area-inset-bottom))]"
 >
 	{#key generation}
 		<div
-			class="mb-2 flex gap-0.5 overflow-hidden rounded"
+			class="mb-1.5 flex gap-0.5 overflow-hidden rounded sm:mb-2"
 			in:fly={{ y: 20, duration: 300, easing: backOut }}
 		>
 			{#each palette.colors as color}
-				<div class="h-3 w-8" style="background-color: {color};"></div>
+				<div
+					class="h-2.5 w-6 sm:h-3 sm:w-8"
+					style="background-color: {color};"
+				></div>
 			{/each}
 		</div>
 		<p
-			class="text-lg font-semibold text-slate-700"
+			class="text-sm font-semibold text-slate-700 sm:text-lg"
 			in:fly={{ y: 20, duration: 300, delay: 50, easing: backOut }}
 		>
 			{palette.name}
 		</p>
 		{#if palette.author}
 			<p
-				class="text-sm text-slate-400"
+				class="text-xs text-slate-400 sm:text-sm"
 				in:fly={{ y: 20, duration: 300, delay: 100, easing: backOut }}
 			>
 				by {palette.author}
@@ -180,15 +183,14 @@
 
 <!-- Refresh button -->
 <button
-	class="fixed right-4 bottom-20 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-600 shadow-lg transition-all hover:scale-110 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 md:right-6 md:bottom-24"
+	class="fixed right-3 bottom-[calc(5rem+env(safe-area-inset-bottom))] flex h-10 w-10 items-center justify-center rounded-full bg-white text-slate-600 shadow-lg transition-all hover:scale-110 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 sm:right-4 sm:bottom-[calc(5.5rem+env(safe-area-inset-bottom))] sm:h-12 sm:w-12 md:right-6 md:bottom-[calc(6rem+env(safe-area-inset-bottom))]"
 	onclick={refresh}
 	aria-label="Generate new palette (press Space or R)"
 	title="Generate new palette (Space or R)"
 >
 	<svg
 		xmlns="http://www.w3.org/2000/svg"
-		width="20"
-		height="20"
+		class="h-4 w-4 sm:h-5 sm:w-5"
 		viewBox="0 0 24 24"
 		fill="none"
 		stroke="currentColor"
