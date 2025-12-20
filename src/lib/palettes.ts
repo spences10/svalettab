@@ -227,6 +227,6 @@ export const palettes: Palette[] = [
 	},
 ];
 
-export function getRandomPalette(): Palette {
+export function get_random_palette(): Palette {
 	return palettes[Math.floor(Math.random() * palettes.length)];
 }

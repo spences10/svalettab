@@ -2,7 +2,7 @@ export interface Font {
 	name: string;
 	family: string;
 	category: 'sans' | 'serif' | 'mono' | 'display';
-	fontsourceSlug: string;
+	fontsource_slug: string;
 }
 
 export const fonts: Font[] = [
@@ -11,43 +11,43 @@ export const fonts: Font[] = [
 		name: 'Space Grotesk',
 		family: "'Space Grotesk Variable', sans-serif",
 		category: 'sans',
-		fontsourceSlug: 'space-grotesk',
+		fontsource_slug: 'space-grotesk',
 	},
 	{
 		name: 'Outfit',
 		family: "'Outfit Variable', sans-serif",
 		category: 'sans',
-		fontsourceSlug: 'outfit',
+		fontsource_slug: 'outfit',
 	},
 	{
 		name: 'Sora',
 		family: "'Sora Variable', sans-serif",
 		category: 'sans',
-		fontsourceSlug: 'sora',
+		fontsource_slug: 'sora',
 	},
 	{
 		name: 'Work Sans',
 		family: "'Work Sans Variable', sans-serif",
 		category: 'sans',
-		fontsourceSlug: 'work-sans',
+		fontsource_slug: 'work-sans',
 	},
 	{
 		name: 'DM Sans',
 		family: "'DM Sans Variable', sans-serif",
 		category: 'sans',
-		fontsourceSlug: 'dm-sans',
+		fontsource_slug: 'dm-sans',
 	},
 	{
 		name: 'Manrope',
 		family: "'Manrope Variable', sans-serif",
 		category: 'sans',
-		fontsourceSlug: 'manrope',
+		fontsource_slug: 'manrope',
 	},
 	{
 		name: 'Inter',
 		family: "'Inter Variable', sans-serif",
 		category: 'sans',
-		fontsourceSlug: 'inter',
+		fontsource_slug: 'inter',
 	},
 
 	// Serif
@@ -55,31 +55,31 @@ export const fonts: Font[] = [
 		name: 'Playfair Display',
 		family: "'Playfair Display Variable', serif",
 		category: 'serif',
-		fontsourceSlug: 'playfair-display',
+		fontsource_slug: 'playfair-display',
 	},
 	{
 		name: 'Crimson Pro',
 		family: "'Crimson Pro Variable', serif",
 		category: 'serif',
-		fontsourceSlug: 'crimson-pro',
+		fontsource_slug: 'crimson-pro',
 	},
 	{
 		name: 'Fraunces',
 		family: "'Fraunces Variable', serif",
 		category: 'serif',
-		fontsourceSlug: 'fraunces',
+		fontsource_slug: 'fraunces',
 	},
 	{
 		name: 'Bitter',
 		family: "'Bitter Variable', serif",
 		category: 'serif',
-		fontsourceSlug: 'bitter',
+		fontsource_slug: 'bitter',
 	},
 	{
 		name: 'Lora',
 		family: "'Lora Variable', serif",
 		category: 'serif',
-		fontsourceSlug: 'lora',
+		fontsource_slug: 'lora',
 	},
 
 	// Mono
@@ -87,19 +87,19 @@ export const fonts: Font[] = [
 		name: 'JetBrains Mono',
 		family: "'JetBrains Mono Variable', monospace",
 		category: 'mono',
-		fontsourceSlug: 'jetbrains-mono',
+		fontsource_slug: 'jetbrains-mono',
 	},
 	{
 		name: 'Source Code Pro',
 		family: "'Source Code Pro Variable', monospace",
 		category: 'mono',
-		fontsourceSlug: 'source-code-pro',
+		fontsource_slug: 'source-code-pro',
 	},
 	{
 		name: 'Fira Code',
 		family: "'Fira Code Variable', monospace",
 		category: 'mono',
-		fontsourceSlug: 'fira-code',
+		fontsource_slug: 'fira-code',
 	},
 
 	// Display
@@ -107,27 +107,27 @@ export const fonts: Font[] = [
 		name: 'Josefin Sans',
 		family: "'Josefin Sans Variable', sans-serif",
 		category: 'display',
-		fontsourceSlug: 'josefin-sans',
+		fontsource_slug: 'josefin-sans',
 	},
 	{
 		name: 'Raleway',
 		family: "'Raleway Variable', sans-serif",
 		category: 'display',
-		fontsourceSlug: 'raleway',
+		fontsource_slug: 'raleway',
 	},
 	{
 		name: 'Quicksand',
 		family: "'Quicksand Variable', sans-serif",
 		category: 'display',
-		fontsourceSlug: 'quicksand',
+		fontsource_slug: 'quicksand',
 	},
 ];
 
-export function getRandomFonts(count: number = 5): Font[] {
+export function get_random_fonts(count: number = 5): Font[] {
 	const shuffled = [...fonts].sort(() => Math.random() - 0.5);
 	return shuffled.slice(0, count);
 }
 
-export function getFontsourceUrl(font: Font): string {
-	return `https://fontsource.org/fonts/${font.fontsourceSlug}`;
+export function get_fontsource_url(font: Font): string {
+	return `https://fontsource.org/fonts/${font.fontsource_slug}`;
 }

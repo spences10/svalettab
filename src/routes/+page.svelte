@@ -1,54 +1,54 @@
 <script lang="ts">
-	import { getRandomPalette, type Palette } from '$lib/palettes';
 	import {
-		getRandomFonts,
-		getFontsourceUrl,
+		get_contrast_color,
+		get_secondary_contrast_color,
+	} from '$lib/contrast';
+	import {
+		get_fontsource_url,
+		get_random_fonts,
 		type Font,
 	} from '$lib/fonts';
-	import {
-		getContrastColor,
-		getSecondaryContrastColor,
-	} from '$lib/contrast';
+	import { get_random_palette, type Palette } from '$lib/palettes';
 
-	let palette = $state<Palette>(getRandomPalette());
-	let fonts = $state<Font[]>(getRandomFonts(5));
+	let palette = $state<Palette>(get_random_palette());
+	let fonts = $state<Font[]>(get_random_fonts(5));
 	let toast = $state<{ message: string; visible: boolean }>({
 		message: '',
 		visible: false,
 	});
-	let toastTimeout: ReturnType<typeof setTimeout> | null = null;
+	let toast_timeout: ReturnType<typeof setTimeout> | null = null;
 
 	function refresh() {
-		palette = getRandomPalette();
-		fonts = getRandomFonts(5);
+		palette = get_random_palette();
+		fonts = get_random_fonts(5);
 	}
 
-	function showToast(message: string) {
-		if (toastTimeout) clearTimeout(toastTimeout);
+	function show_toast(message: string) {
+		if (toast_timeout) clearTimeout(toast_timeout);
 		toast = { message, visible: true };
-		toastTimeout = setTimeout(() => {
+		toast_timeout = setTimeout(() => {
 			toast = { message: '', visible: false };
 		}, 2000);
 	}
 
-	async function copyHex(hex: string) {
+	async function copy_hex(hex: string) {
 		try {
 			await navigator.clipboard.writeText(hex);
-			showToast(`Copied ${hex}`);
+			show_toast(`Copied ${hex}`);
 		} catch {
-			showToast('Failed to copy');
+			show_toast('Failed to copy');
 		}
 	}
 
-	function openFontsource(font: Font) {
+	function open_fontsource(font: Font) {
 		window.open(
-			getFontsourceUrl(font),
+			get_fontsource_url(font),
 			'_blank',
 			'noopener,noreferrer',
 		);
 	}
 
-	function handleKeydown(e: KeyboardEvent) {
+	function handle_keydown(e: KeyboardEvent) {
 		if (e.key === ' ' || e.key === 'r' || e.key === 'R') {
 			// Don't trigger if user is typing in an input
 			if (
@@ -62,13 +62,13 @@
 	}
 </script>
 
-<svelte:window onkeydown={handleKeydown} />
+<svelte:window onkeydown={handle_keydown} />
 
 <main class="flex h-screen w-screen flex-col md:flex-row">
 	{#each palette.colors as color, i}
 		{@const font = fonts[i]}
-		{@const textColor = getContrastColor(color)}
-		{@const secondaryColor = getSecondaryContrastColor(color)}
+		{@const text_color = get_contrast_color(color)}
+		{@const secondary_color = get_secondary_contrast_color(color)}
 
 		<div
 			class="group relative flex flex-1 flex-col items-center justify-end pb-8 transition-all duration-200 hover:flex-[1.1] md:pb-16"
@@ -77,7 +77,7 @@
 			<!-- Color swatch click area -->
 			<button
 				class="absolute inset-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-inset"
-				onclick={() => copyHex(color)}
+				onclick={() => copy_hex(color)}
 				aria-label="Copy {color} to clipboard"
 			>
 				<span class="sr-only">Copy {color}</span>
@@ -88,7 +88,7 @@
 				<!-- Hex code -->
 				<p
 					class="mb-2 font-mono text-sm tracking-wider uppercase opacity-70 transition-opacity group-hover:opacity-100"
-					style="color: {secondaryColor};"
+					style="color: {secondary_color};"
 				>
 					{color}
 				</p>
@@ -96,8 +96,8 @@
 				<!-- Font name -->
 				<button
 					class="pointer-events-auto cursor-pointer text-2xl font-medium transition-all hover:scale-105 focus:outline-none focus-visible:underline md:text-3xl lg:text-4xl"
-					style="font-family: {font.family}; color: {textColor};"
-					onclick={() => openFontsource(font)}
+					style="font-family: {font.family}; color: {text_color};"
+					onclick={() => open_fontsource(font)}
 					aria-label="Open {font.name} on Fontsource"
 				>
 					{font.name}
@@ -108,11 +108,11 @@
 			{#if i < palette.colors.length - 1}
 				<div
 					class="absolute top-0 right-0 bottom-0 hidden w-px md:block"
-					style="background-color: {secondaryColor}; opacity: 0.2;"
+					style="background-color: {secondary_color}; opacity: 0.2;"
 				></div>
 				<div
 					class="absolute right-0 bottom-0 left-0 h-px md:hidden"
-					style="background-color: {secondaryColor}; opacity: 0.2;"
+					style="background-color: {secondary_color}; opacity: 0.2;"
 				></div>
 			{/if}
 		</div>
