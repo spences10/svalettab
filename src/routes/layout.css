@@ -4,23 +4,7 @@ html,
 body {
 	margin: 0;
 	padding: 0;
-}
-
-/* Allow scrolling on mobile, prevent on desktop */
-@media (max-width: 767px) {
-	html,
-	body {
-		overflow-x: hidden;
-		overflow-y: auto;
-		-webkit-overflow-scrolling: touch;
-	}
-}
-
-@media (min-width: 768px) {
-	html,
-	body {
-		overflow: hidden;
-	}
+	overflow: hidden;
 }
 
 /* Screen reader only class */
