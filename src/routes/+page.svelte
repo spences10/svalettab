@@ -1,8 +1,5 @@
 <script lang="ts">
-	import {
-		get_contrast_color,
-		get_secondary_contrast_color,
-	} from '$lib/contrast';
+	import { get_contrast_color } from '$lib/contrast';
 	import {
 		get_fontsource_url,
 		get_random_fonts,
@@ -12,10 +9,7 @@
 
 	let palette = $state<Palette>(get_random_palette());
 	let fonts = $state<Font[]>(get_random_fonts(5));
-	let toast = $state<{ message: string; visible: boolean }>({
-		message: '',
-		visible: false,
-	});
+	let toast = $state({ message: '', visible: false });
 	let toast_timeout: ReturnType<typeof setTimeout> | null = null;
 
 	function refresh() {
@@ -48,15 +42,14 @@
 		);
 	}
 
-	function handle_keydown(e: KeyboardEvent) {
-		if (e.key === ' ' || e.key === 'r' || e.key === 'R') {
-			// Don't trigger if user is typing in an input
+	function handle_keydown(event: KeyboardEvent) {
+		if (event.key === ' ' || event.key === 'r' || event.key === 'R') {
 			if (
-				e.target instanceof HTMLInputElement ||
-				e.target instanceof HTMLTextAreaElement
+				event.target instanceof HTMLInputElement ||
+				event.target instanceof HTMLTextAreaElement
 			)
 				return;
-			e.preventDefault();
+			event.preventDefault();
 			refresh();
 		}
 	}
@@ -64,64 +57,90 @@
 
 <svelte:window onkeydown={handle_keydown} />
 
-<main class="flex h-screen w-screen flex-col md:flex-row">
-	{#each palette.colors as color, i}
-		{@const font = fonts[i]}
-		{@const text_color = get_contrast_color(color)}
-		{@const secondary_color = get_secondary_contrast_color(color)}
+<main
+	class="flex min-h-screen items-center justify-center bg-gradient-to-br from-slate-100 to-slate-200 p-4 md:p-8"
+>
+	<div
+		class="flex flex-wrap items-center justify-center gap-4 md:gap-6"
+	>
+		{#each palette.colors as color, i}
+			{@const font = fonts[i]}
+			{@const text_color = get_contrast_color(color)}
 
-		<div
-			class="group relative flex flex-1 flex-col items-center justify-end pb-8 transition-all duration-200 hover:flex-[1.1] md:pb-16"
-			style="background-color: {color};"
-		>
-			<!-- Color swatch click area -->
-			<button
-				class="absolute inset-0 cursor-pointer focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-inset"
-				onclick={() => copy_hex(color)}
-				aria-label="Copy {color} to clipboard"
+			<div
+				class="group relative h-[380px] w-[220px] cursor-pointer overflow-hidden rounded-lg bg-white shadow-lg transition-all duration-300 hover:-translate-y-2 hover:shadow-2xl md:h-[430px] md:w-[250px]"
 			>
-				<span class="sr-only">Copy {color}</span>
-			</button>
-
-			<!-- Content -->
-			<div class="pointer-events-none relative z-10 text-center">
-				<!-- Hex code -->
-				<p
-					class="mb-2 font-mono text-sm tracking-wider uppercase opacity-70 transition-opacity group-hover:opacity-100"
-					style="color: {secondary_color};"
-				>
-					{color}
-				</p>
-
-				<!-- Font name -->
+				<!-- Color section (top) -->
 				<button
-					class="pointer-events-auto cursor-pointer text-2xl font-medium transition-all hover:scale-105 focus:outline-none focus-visible:underline md:text-3xl lg:text-4xl"
-					style="font-family: {font.family}; color: {text_color};"
+					class="relative flex h-[65%] w-full flex-col items-center justify-center overflow-hidden focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 focus-visible:ring-inset"
+					style="background-color: {color};"
+					onclick={() => copy_hex(color)}
+					aria-label="Copy {color} to clipboard"
+				>
+					<!-- Font sample text -->
+					<span
+						class="text-6xl font-bold opacity-90 md:text-7xl"
+						style="font-family: {font.family}; color: {text_color};"
+					>
+						Aa
+					</span>
+					<span
+						class="mt-2 text-2xl opacity-70 md:text-3xl"
+						style="font-family: {font.family}; color: {text_color};"
+					>
+						Bb Cc
+					</span>
+
+					<!-- Hex overlay on hover -->
+					<div
+						class="absolute inset-0 flex items-center justify-center bg-black/20 opacity-0 transition-opacity group-hover:opacity-100"
+					>
+						<span
+							class="rounded bg-black/50 px-3 py-1 font-mono text-sm tracking-wider text-white uppercase"
+						>
+							{color}
+						</span>
+					</div>
+
+					<!-- Curved dip divider -->
+					<svg
+						class="absolute -bottom-px left-0 w-full"
+						viewBox="0 0 250 20"
+						preserveAspectRatio="none"
+					>
+						<path
+							d="M0,20 L0,0 Q125,40 250,0 L250,20 Z"
+							fill="white"
+						/>
+					</svg>
+				</button>
+
+				<!-- Info section (bottom) -->
+				<button
+					class="flex h-[35%] w-full flex-col items-center justify-center px-4 text-center focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 focus-visible:ring-inset"
 					onclick={() => open_fontsource(font)}
 					aria-label="Open {font.name} on Fontsource"
 				>
-					{font.name}
+					<span
+						class="text-lg font-semibold text-slate-800 transition-colors group-hover:text-slate-600 md:text-xl"
+						style="font-family: {font.family};"
+					>
+						{font.name}
+					</span>
+					<span
+						class="mt-1 text-xs tracking-wider text-slate-400 uppercase"
+					>
+						{font.category}
+					</span>
 				</button>
 			</div>
-
-			<!-- Subtle border between swatches -->
-			{#if i < palette.colors.length - 1}
-				<div
-					class="absolute top-0 right-0 bottom-0 hidden w-px md:block"
-					style="background-color: {secondary_color}; opacity: 0.2;"
-				></div>
-				<div
-					class="absolute right-0 bottom-0 left-0 h-px md:hidden"
-					style="background-color: {secondary_color}; opacity: 0.2;"
-				></div>
-			{/if}
-		</div>
-	{/each}
+		{/each}
+	</div>
 </main>
 
 <!-- Refresh button -->
 <button
-	class="fixed right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full bg-black/20 text-white backdrop-blur-sm transition-all hover:scale-110 hover:bg-black/30 focus:outline-none focus-visible:ring-2 focus-visible:ring-white/50 md:right-6 md:bottom-6"
+	class="fixed right-4 bottom-4 flex h-12 w-12 items-center justify-center rounded-full bg-white text-slate-600 shadow-lg transition-all hover:scale-110 hover:shadow-xl focus:outline-none focus-visible:ring-2 focus-visible:ring-slate-300 md:right-6 md:bottom-6"
 	onclick={refresh}
 	aria-label="Generate new palette (press Space or R)"
 	title="Generate new palette (Space or R)"
@@ -145,7 +164,7 @@
 <!-- Toast notification -->
 {#if toast.visible}
 	<div
-		class="fixed top-4 left-1/2 -translate-x-1/2 rounded-lg bg-black/80 px-4 py-2 font-mono text-sm text-white backdrop-blur-sm transition-all"
+		class="fixed top-4 left-1/2 -translate-x-1/2 rounded-lg bg-slate-800 px-4 py-2 font-mono text-sm text-white shadow-lg"
 		role="status"
 		aria-live="polite"
 	>
