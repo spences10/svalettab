@@ -42,6 +42,77 @@
 	const fly_delay = $derived(get_stagger_delay(index));
 </script>
 
+{#snippet card_content()}
+	<button
+		class="color-section"
+		style="background-color: {color};"
+		onclick={() => on_copy_hex(color)}
+		aria-label="Copy {color} to clipboard"
+	>
+		<div class="font-samples">
+			<span
+				class="sample-large"
+				style="font-family: {font.family}; color: {text_color};"
+			>
+				Ag
+			</span>
+			<span
+				class="sample-small"
+				style="font-family: {font.family}; color: {text_color};"
+			>
+				AaBbCc
+			</span>
+		</div>
+
+		<div class="hex-overlay">
+			<span class="hex-value">{color}</span>
+		</div>
+
+		<span class="copy-hint">Click to copy</span>
+	</button>
+
+	<button
+		class="info-section"
+		onclick={open_fontsource}
+		aria-label="Open {font.name} on Fontsource"
+	>
+		<svg
+			class="dimple"
+			viewBox="0 0 250 12"
+			preserveAspectRatio="none"
+		>
+			<path
+				d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
+				fill="white"
+			/>
+		</svg>
+
+		<div class="font-details">
+			<span class="font-name" style="font-family: {font.family};">
+				{font.name}
+			</span>
+			<span class="font-category">
+				{font.category}
+			</span>
+		</div>
+
+		<div class="eye-container">
+			<svg
+				class="eye-icon"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke={color}
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z" />
+				<circle cx="12" cy="12" r="3" />
+			</svg>
+		</div>
+	</button>
+{/snippet}
+
 <div
 	class="card-container"
 	in:fly={{
@@ -59,165 +130,14 @@
 		<!-- Front Face -->
 		<div class="card-face card-front">
 			<div class="card-inner">
-				<!-- Color section (top) -->
-				<button
-					class="color-section"
-					style="background-color: {color};"
-					onclick={() => on_copy_hex(color)}
-					aria-label="Copy {color} to clipboard"
-				>
-					<!-- Font samples -->
-					<div class="font-samples">
-						<span
-							class="sample-large"
-							style="font-family: {font.family}; color: {text_color};"
-						>
-							Ag
-						</span>
-						<span
-							class="sample-small"
-							style="font-family: {font.family}; color: {text_color};"
-						>
-							AaBbCc
-						</span>
-					</div>
-
-					<!-- Hex overlay -->
-					<div class="hex-overlay">
-						<span class="hex-value">{color}</span>
-					</div>
-
-					<!-- Copy hint -->
-					<span class="copy-hint">Click to copy</span>
-				</button>
-
-				<!-- Info section (bottom) -->
-				<button
-					class="info-section"
-					onclick={open_fontsource}
-					aria-label="Open {font.name} on Fontsource"
-				>
-					<!-- Dimple divider -->
-					<svg
-						class="dimple"
-						viewBox="0 0 250 12"
-						preserveAspectRatio="none"
-					>
-						<path
-							d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
-							fill="white"
-						/>
-					</svg>
-
-					<div class="font-details">
-						<span
-							class="font-name"
-							style="font-family: {font.family};"
-						>
-							{font.name}
-						</span>
-						<span class="font-category">
-							{font.category}
-						</span>
-					</div>
-
-					<!-- Eye icon (view hint) -->
-					<div class="eye-container">
-						<svg
-							class="eye-icon"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke={color}
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path
-								d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-							/>
-							<circle cx="12" cy="12" r="3" />
-						</svg>
-					</div>
-				</button>
+				{@render card_content()}
 			</div>
 		</div>
 
 		<!-- Back Face -->
 		<div class="card-face card-back">
 			<div class="card-inner">
-				<button
-					class="color-section"
-					style="background-color: {color};"
-					onclick={() => on_copy_hex(color)}
-					aria-label="Copy {color} to clipboard"
-				>
-					<div class="font-samples">
-						<span
-							class="sample-large"
-							style="font-family: {font.family}; color: {text_color};"
-						>
-							Ag
-						</span>
-						<span
-							class="sample-small"
-							style="font-family: {font.family}; color: {text_color};"
-						>
-							AaBbCc
-						</span>
-					</div>
-
-					<div class="hex-overlay">
-						<span class="hex-value">{color}</span>
-					</div>
-
-					<span class="copy-hint">Click to copy</span>
-				</button>
-
-				<button
-					class="info-section"
-					onclick={open_fontsource}
-					aria-label="Open {font.name} on Fontsource"
-				>
-					<svg
-						class="dimple"
-						viewBox="0 0 250 12"
-						preserveAspectRatio="none"
-					>
-						<path
-							d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
-							fill="white"
-						/>
-					</svg>
-
-					<div class="font-details">
-						<span
-							class="font-name"
-							style="font-family: {font.family};"
-						>
-							{font.name}
-						</span>
-						<span class="font-category">
-							{font.category}
-						</span>
-					</div>
-
-					<div class="eye-container">
-						<svg
-							class="eye-icon"
-							viewBox="0 0 24 24"
-							fill="none"
-							stroke={color}
-							stroke-width="2"
-							stroke-linecap="round"
-							stroke-linejoin="round"
-						>
-							<path
-								d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
-							/>
-							<circle cx="12" cy="12" r="3" />
-						</svg>
-					</div>
-				</button>
+				{@render card_content()}
 			</div>
 		</div>
 	</div>

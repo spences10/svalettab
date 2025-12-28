@@ -21,21 +21,21 @@
 
 	onMount(() => {
 		// Sequence the initial load like original Palettab
-		// 0ms: Show loader (handled by initial state)
-		// 800ms: Cards fly in
-		// 1400ms: Info bar appears
-		// 1800ms: Refresh button pops in
+		// Show loader longer so animation is visible
+		// 1200ms: Cards fly in
+		// 2000ms: Info bar appears
+		// 2400ms: Refresh button pops in
 		setTimeout(() => {
 			show_cards = true;
-		}, 600);
+		}, 1200);
 
 		setTimeout(() => {
 			show_info = true;
-		}, 1400);
+		}, 2000);
 
 		setTimeout(() => {
 			show_refresh = true;
-		}, 1800);
+		}, 2400);
 	});
 
 	function refresh() {
