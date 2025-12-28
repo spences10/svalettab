@@ -1,8 +1,6 @@
 <script lang="ts">
 	import { get_contrast_color } from '$lib/contrast';
 	import { get_fontsource_url, type Font } from '$lib/fonts';
-	import { backOut } from 'svelte/easing';
-	import { fly } from 'svelte/transition';
 
 	interface Props {
 		color: string;
@@ -10,6 +8,7 @@
 		index: number;
 		generation: number;
 		flipped: boolean;
+		revealed: boolean;
 		on_copy_hex: (hex: string) => void;
 	}
 
@@ -19,6 +18,7 @@
 		index,
 		generation,
 		flipped,
+		revealed,
 		on_copy_hex,
 	}: Props = $props();
 
@@ -32,14 +32,14 @@
 		);
 	}
 
-	// Center-out delay: center card (index 2) = 0ms, adjacent = 80ms, outer = 160ms
+	// Center-out delay like original: center=0ms, adjacent=150ms, outer=300ms
 	function get_stagger_delay(idx: number): number {
 		const center = 2;
 		const distance = Math.abs(idx - center);
-		return distance * 80;
+		return distance * 150;
 	}
 
-	const fly_delay = $derived(get_stagger_delay(index));
+	const stagger_delay = $derived(get_stagger_delay(index));
 </script>
 
 {#snippet card_content()}
@@ -115,17 +115,13 @@
 
 <div
 	class="card-container"
-	in:fly={{
-		y: 150,
-		duration: 600,
-		delay: 300 + fly_delay,
-		easing: backOut,
-	}}
+	class:revealed
+	style="transition-delay: {stagger_delay}ms;"
 >
 	<div
 		class="card-flipper"
 		class:flipped
-		style="transition-delay: {get_stagger_delay(index)}ms;"
+		style="transition-delay: {stagger_delay}ms;"
 	>
 		<!-- Front Face -->
 		<div class="card-face card-front">
@@ -148,6 +144,12 @@
 		perspective: 1200px;
 		width: 180px;
 		height: 320px;
+		transform: translateY(100vh);
+		transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+	}
+
+	.card-container.revealed {
+		transform: translateY(0);
 	}
 
 	@media (min-width: 768px) {

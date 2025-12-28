@@ -137,18 +137,17 @@
 
 	<!-- Cards -->
 	<div class="cards-wrapper">
-		{#if show_cards}
-			{#each palette.colors as color, i (i)}
-				<FlipCard
-					{color}
-					font={fonts[i]}
-					index={i}
-					{generation}
-					{flipped}
-					on_copy_hex={copy_hex}
-				/>
-			{/each}
-		{/if}
+		{#each palette.colors as color, i (i)}
+			<FlipCard
+				{color}
+				font={fonts[i]}
+				index={i}
+				{generation}
+				{flipped}
+				revealed={show_cards}
+				on_copy_hex={copy_hex}
+			/>
+		{/each}
 	</div>
 </main>
 
