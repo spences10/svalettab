@@ -89,14 +89,19 @@
 	{#if !show_cards}
 		<div class="loader" out:fade={{ duration: 200 }}>
 			<div class="loader-grid">
-				{#each palette.colors as color, i}
+				{#each { length: 9 } as _, i}
 					<div
 						class="loader-dot"
-						style="background-color: {color}; animation-delay: {i *
-							80}ms;"
+						style="background-color: {palette.colors[
+							i % palette.colors.length
+						]}; animation-delay: {i * 60}ms;"
 					></div>
 				{/each}
 			</div>
+			<p class="loader-caption">
+				This doesn't need to be here, it loads super fast. Nice
+				animation though, right?
+			</p>
 		</div>
 	{/if}
 
@@ -220,6 +225,7 @@
 	.loader {
 		position: absolute;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 	}
@@ -227,13 +233,21 @@
 	.loader-grid {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 3px;
+		gap: 2px;
 	}
 
 	.loader-dot {
 		width: 10px;
 		height: 10px;
 		animation: loader-snake 0.5s ease-in-out infinite;
+	}
+
+	.loader-caption {
+		margin-top: 2rem;
+		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		font-size: 0.75rem;
+		color: #999;
+		text-align: center;
 	}
 
 	@keyframes loader-snake {
