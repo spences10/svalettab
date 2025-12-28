@@ -59,8 +59,8 @@
 	<button
 		class="color-section"
 		style="background-color: {color};"
-		onclick={() => on_copy_hex(color)}
-		aria-label="Copy {color} to clipboard"
+		onclick={() => on_copy_hex(formatted_color)}
+		aria-label="Copy {formatted_color} to clipboard"
 	>
 		<div class="font-samples">
 			<span
