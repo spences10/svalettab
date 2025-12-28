@@ -19,23 +19,55 @@
 	let show_info = $state(false);
 	let show_refresh = $state(false);
 
+	// Snake animation for loader
+	// Grid: 0,1,2 / 3,4,5 / 6,7,8 → Snake order: 0→1→2→5→8→7→6→3→4
+	const SNAKE_ORDER = [0, 1, 2, 5, 8, 7, 6, 3, 4];
+	let loader_colors = $state<string[]>([]);
+
+	function init_loader_colors() {
+		const c = palette.colors;
+		loader_colors = [
+			c[0],
+			c[1],
+			c[2],
+			c[3],
+			c[4],
+			c[3],
+			c[2],
+			c[1],
+			c[0],
+		];
+	}
+
+	function rotate_loader_colors() {
+		loader_colors = [
+			loader_colors.at(-1)!,
+			...loader_colors.slice(0, -1),
+		];
+	}
+
+	function get_loader_color(grid_idx: number): string {
+		const snake_pos = SNAKE_ORDER.indexOf(grid_idx);
+		return loader_colors[snake_pos] ?? palette.colors[0];
+	}
+
 	onMount(() => {
-		// Sequence the initial load like original Palettab
-		// Show loader longer so animation is visible
-		// 1200ms: Cards fly in
-		// 2000ms: Info bar appears
-		// 2400ms: Refresh button pops in
+		init_loader_colors();
+		const loader_interval = setInterval(rotate_loader_colors, 50);
+
+		// Timing like original Palettab
 		setTimeout(() => {
 			show_cards = true;
-		}, 1200);
-
-		setTimeout(() => {
-			show_info = true;
+			clearInterval(loader_interval);
 		}, 2000);
 
 		setTimeout(() => {
+			show_info = true;
+		}, 2200);
+
+		setTimeout(() => {
 			show_refresh = true;
-		}, 2400);
+		}, 2500);
 	});
 
 	function refresh() {
@@ -92,9 +124,7 @@
 				{#each { length: 9 } as _, i}
 					<div
 						class="loader-dot"
-						style="background-color: {palette.colors[
-							i % palette.colors.length
-						]}; animation-delay: {i * 60}ms;"
+						style="background-color: {get_loader_color(i)};"
 					></div>
 				{/each}
 			</div>
@@ -233,13 +263,11 @@
 	.loader-grid {
 		display: grid;
 		grid-template-columns: repeat(3, 1fr);
-		gap: 2px;
 	}
 
 	.loader-dot {
-		width: 10px;
-		height: 10px;
-		animation: loader-snake 0.5s ease-in-out infinite;
+		width: 14px;
+		height: 14px;
 	}
 
 	.loader-caption {
@@ -248,16 +276,6 @@
 		font-size: 0.75rem;
 		color: #999;
 		text-align: center;
-	}
-
-	@keyframes loader-snake {
-		0%,
-		100% {
-			opacity: 0.4;
-		}
-		50% {
-			opacity: 1;
-		}
 	}
 
 	.cards-wrapper {
