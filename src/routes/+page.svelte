@@ -196,11 +196,19 @@
 
 <!-- Footer - slides up on hover -->
 <footer>
+	<!-- Three dots indicator -->
+	<div class="footer-dots">
+		<span></span>
+		<span></span>
+		<span></span>
+	</div>
 	<div class="footer-content">
 		<div class="footer-dip">
 			<div class="dip-left"></div>
-			<svg width="46" height="15" viewBox="0 0 46 15" fill="white">
+			<svg width="46" height="15" viewBox="0 0 46 15">
 				<path
+					fill="#ffffff"
+					fill-rule="evenodd"
 					d="M0,0 L0,15 L46,15 L46,0 L0,0 Z M1.229,0 C12.122,0 12.122,12.998 23.016,12.998 C33.909,12.998 33.909,0 44.8,0 C55.691,0 -9.664,0 1.229,0 Z"
 				/>
 			</svg>
@@ -425,6 +433,29 @@
 		filter: drop-shadow(0 -1px 2px rgba(0, 0, 0, 0.1));
 	}
 
+	.footer-dots {
+		position: absolute;
+		bottom: 20px;
+		left: 50%;
+		transform: translateX(-50%);
+		display: flex;
+		flex-direction: column;
+		gap: 3px;
+		z-index: 0;
+		transition: opacity 200ms ease;
+	}
+
+	.footer-dots span {
+		width: 4px;
+		height: 4px;
+		border-radius: 50%;
+		background: #ccc;
+	}
+
+	footer:hover .footer-dots {
+		opacity: 0;
+	}
+
 	footer:hover .footer-content {
 		transform: translateY(0);
 	}
@@ -433,31 +464,32 @@
 		transform: translateY(50px);
 		transition: transform 200ms ease-out;
 		margin: 0 60px;
-		border-radius: 5px 5px 0 0;
-		overflow: hidden;
 	}
 
 	.footer-dip {
 		display: flex;
 		height: 15px;
+		overflow: visible;
 	}
 
 	.dip-left,
 	.dip-right {
 		flex: 1;
 		background: white;
+		height: 15px;
 	}
 
 	.dip-left {
-		margin-left: -23px;
+		border-radius: 5px 0 0 0;
 	}
 
 	.dip-right {
-		margin-right: -23px;
+		border-radius: 0 5px 0 0;
 	}
 
 	.footer-dip svg {
 		flex-shrink: 0;
+		display: block;
 	}
 
 	.footer-bottom {
