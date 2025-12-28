@@ -145,7 +145,7 @@
 		width: 180px;
 		height: 320px;
 		transform: translateY(100vh);
-		transition: transform 600ms cubic-bezier(0.34, 1.56, 0.64, 1);
+		transition: transform 700ms cubic-bezier(0.34, 1.25, 0.64, 1);
 	}
 
 	.card-container.revealed {
