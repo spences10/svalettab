@@ -233,11 +233,11 @@
 		box-shadow:
 			0 25px 50px -10px var(--shadow-strong),
 			0 15px 30px -10px var(--shadow-color);
-		transform: rotateY(0deg) translateY(-8px) scale(1.02);
+		transform: rotateY(0deg) translateY(-8px);
 	}
 
 	.card-container:hover .card-back {
-		transform: rotateY(180deg) translateY(-8px) scale(1.02);
+		transform: rotateY(180deg) translateY(-8px);
 	}
 
 	.card-container:hover .card-flipper.flipped .card-front {
@@ -245,7 +245,7 @@
 	}
 
 	.card-container:hover .card-flipper.flipped .card-back {
-		transform: rotateY(180deg) translateY(-8px) scale(1.02);
+		transform: rotateY(180deg) translateY(-8px);
 	}
 
 	.card-inner {
