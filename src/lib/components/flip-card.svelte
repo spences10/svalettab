@@ -39,129 +39,156 @@
 		return distance * 80;
 	}
 
-	// Initial fly-in delay based on position from center
 	const fly_delay = $derived(get_stagger_delay(index));
 </script>
 
 <div
-	class="card-container group"
-	style="--index: {index}; perspective: 1200px;"
+	class="card-container"
 	in:fly={{
-		y: 120,
+		y: 150,
 		duration: 600,
-		delay: 400 + fly_delay,
+		delay: 300 + fly_delay,
 		easing: backOut,
 	}}
 >
 	<div
 		class="card-flipper"
 		class:flipped
-		style="transform-style: preserve-3d; transition: transform 600ms cubic-bezier(0.4, 0, 0.2, 1); transition-delay: {get_stagger_delay(
-			index,
-		)}ms;"
+		style="transition-delay: {get_stagger_delay(index)}ms;"
 	>
 		<!-- Front Face -->
 		<div class="card-face card-front">
-			<button
-				class="color-section"
-				style="background-color: {color};"
-				onclick={() => on_copy_hex(color)}
-				aria-label="Copy {color} to clipboard"
-			>
-				<span
-					class="sample-large"
-					style="font-family: {font.family}; color: {text_color};"
+			<div class="card-inner">
+				<!-- Color section (top) -->
+				<button
+					class="color-section"
+					style="background-color: {color};"
+					onclick={() => on_copy_hex(color)}
+					aria-label="Copy {color} to clipboard"
 				>
-					Ag
-				</span>
-				<span
-					class="sample-small"
-					style="font-family: {font.family}; color: {text_color};"
+					<!-- Font samples -->
+					<div class="font-samples">
+						<span
+							class="sample-large"
+							style="font-family: {font.family}; color: {text_color};"
+						>
+							Ag
+						</span>
+						<span
+							class="sample-small"
+							style="font-family: {font.family}; color: {text_color};"
+						>
+							AaBbCc
+						</span>
+					</div>
+
+					<!-- Hex overlay -->
+					<div class="hex-overlay">
+						<span class="hex-value">{color}</span>
+					</div>
+
+					<!-- Copy hint -->
+					<span class="copy-hint">Click to copy</span>
+				</button>
+
+				<!-- Info section (bottom) -->
+				<button
+					class="info-section"
+					onclick={open_fontsource}
+					aria-label="Open {font.name} on Fontsource"
 				>
-					AaBbCc
-				</span>
+					<!-- Dimple divider -->
+					<svg
+						class="dimple"
+						viewBox="0 0 250 12"
+						preserveAspectRatio="none"
+					>
+						<path
+							d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
+							fill="white"
+						/>
+					</svg>
 
-				<!-- Hex overlay on hover -->
-				<div class="hex-overlay">
-					<span class="hex-value">{color}</span>
-				</div>
+					<div class="font-details">
+						<span
+							class="font-name"
+							style="font-family: {font.family};"
+						>
+							{font.name}
+						</span>
+						<span class="font-category">
+							{font.category}
+						</span>
+					</div>
 
-				<!-- Dimple divider -->
-				<svg
-					class="dimple"
-					viewBox="0 0 250 12"
-					preserveAspectRatio="none"
-				>
-					<path
-						d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
-						fill="white"
-					/>
-				</svg>
-			</button>
-
-			<button
-				class="info-section"
-				onclick={open_fontsource}
-				aria-label="Open {font.name} on Fontsource"
-			>
-				<span class="font-name" style="font-family: {font.family};">
-					{font.name}
-				</span>
-				<span class="font-category">
-					{font.category}
-				</span>
-			</button>
+					<!-- View hint -->
+					<span class="view-hint">View on Fontsource →</span>
+				</button>
+			</div>
 		</div>
 
-		<!-- Back Face (shown after flip) -->
+		<!-- Back Face -->
 		<div class="card-face card-back">
-			<button
-				class="color-section"
-				style="background-color: {color};"
-				onclick={() => on_copy_hex(color)}
-				aria-label="Copy {color} to clipboard"
-			>
-				<span
-					class="sample-large"
-					style="font-family: {font.family}; color: {text_color};"
+			<div class="card-inner">
+				<button
+					class="color-section"
+					style="background-color: {color};"
+					onclick={() => on_copy_hex(color)}
+					aria-label="Copy {color} to clipboard"
 				>
-					Ag
-				</span>
-				<span
-					class="sample-small"
-					style="font-family: {font.family}; color: {text_color};"
+					<div class="font-samples">
+						<span
+							class="sample-large"
+							style="font-family: {font.family}; color: {text_color};"
+						>
+							Ag
+						</span>
+						<span
+							class="sample-small"
+							style="font-family: {font.family}; color: {text_color};"
+						>
+							AaBbCc
+						</span>
+					</div>
+
+					<div class="hex-overlay">
+						<span class="hex-value">{color}</span>
+					</div>
+
+					<span class="copy-hint">Click to copy</span>
+				</button>
+
+				<button
+					class="info-section"
+					onclick={open_fontsource}
+					aria-label="Open {font.name} on Fontsource"
 				>
-					AaBbCc
-				</span>
+					<svg
+						class="dimple"
+						viewBox="0 0 250 12"
+						preserveAspectRatio="none"
+					>
+						<path
+							d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
+							fill="white"
+						/>
+					</svg>
 
-				<div class="hex-overlay">
-					<span class="hex-value">{color}</span>
-				</div>
+					<div class="font-details">
+						<span
+							class="font-name"
+							style="font-family: {font.family};"
+						>
+							{font.name}
+						</span>
+						<span class="font-category">
+							{font.category}
+						</span>
+					</div>
 
-				<svg
-					class="dimple"
-					viewBox="0 0 250 12"
-					preserveAspectRatio="none"
-				>
-					<path
-						d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
-						fill="white"
-					/>
-				</svg>
-			</button>
-
-			<button
-				class="info-section"
-				onclick={open_fontsource}
-				aria-label="Open {font.name} on Fontsource"
-			>
-				<span class="font-name" style="font-family: {font.family};">
-					{font.name}
-				</span>
-				<span class="font-category">
-					{font.category}
-				</span>
-			</button>
+					<span class="view-hint">View on Fontsource →</span>
+				</button>
+			</div>
 		</div>
 	</div>
 </div>
@@ -210,17 +237,15 @@
 		position: absolute;
 		inset: 0;
 		backface-visibility: hidden;
-		border-radius: 0.5rem;
+		border-radius: 8px;
 		background: white;
 		box-shadow:
-			0 10px 15px -3px rgb(0 0 0 / 0.1),
-			0 4px 6px -4px rgb(0 0 0 / 0.1);
+			0 10px 30px -5px rgba(0, 0, 0, 0.15),
+			0 5px 15px -5px rgba(0, 0, 0, 0.1);
 		overflow: hidden;
-		display: flex;
-		flex-direction: column;
 		transition:
-			transform 300ms ease,
-			box-shadow 300ms ease;
+			box-shadow 300ms ease,
+			transform 300ms ease;
 	}
 
 	.card-front {
@@ -231,29 +256,37 @@
 		transform: rotateY(180deg);
 	}
 
-	/* 3D hover effect */
+	/* 3D hover lift on the whole card */
 	.card-container:hover .card-face {
 		box-shadow:
-			0 25px 50px -12px rgb(0 0 0 / 0.15),
-			0 12px 24px -8px rgb(0 0 0 / 0.1);
+			0 25px 50px -10px rgba(0, 0, 0, 0.2),
+			0 15px 30px -10px rgba(0, 0, 0, 0.15);
+		transform: rotateY(0deg) translateY(-8px) scale(1.02);
 	}
 
-	.card-container:hover .card-flipper:not(.flipped) .card-front,
-	.card-container:hover .card-flipper.flipped .card-back {
-		transform: rotateY(0deg) translateZ(20px) translateY(-8px);
-	}
-
-	.card-container:hover .card-flipper:not(.flipped) .card-back {
-		transform: rotateY(180deg) translateZ(20px);
+	.card-container:hover .card-back {
+		transform: rotateY(180deg) translateY(-8px) scale(1.02);
 	}
 
 	.card-container:hover .card-flipper.flipped .card-front {
-		transform: rotateY(180deg) translateZ(20px);
+		transform: rotateY(0deg);
 	}
 
+	.card-container:hover .card-flipper.flipped .card-back {
+		transform: rotateY(180deg) translateY(-8px) scale(1.02);
+	}
+
+	.card-inner {
+		display: flex;
+		flex-direction: column;
+		height: 100%;
+		position: relative;
+	}
+
+	/* Color section (top) */
 	.color-section {
 		position: relative;
-		flex: 1 1 65%;
+		flex: 1 1 68%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
@@ -262,111 +295,210 @@
 		border: none;
 		outline: none;
 		overflow: hidden;
+		transition: flex 300ms ease;
 	}
 
-	.color-section:focus-visible {
-		outline: 2px solid rgba(255, 255, 255, 0.5);
-		outline-offset: -2px;
+	.font-samples {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		transition:
+			opacity 200ms ease,
+			transform 200ms ease;
 	}
 
 	.sample-large {
-		font-size: 3.75rem;
+		font-size: 3rem;
 		font-weight: bold;
 		opacity: 0.9;
+		line-height: 1;
 	}
 
 	@media (min-width: 768px) {
 		.sample-large {
-			font-size: 4.5rem;
+			font-size: 3.5rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.sample-large {
+			font-size: 4rem;
 		}
 	}
 
 	.sample-small {
 		margin-top: 0.5rem;
-		font-size: 1.5rem;
+		font-size: 1.25rem;
 		opacity: 0.7;
 	}
 
 	@media (min-width: 768px) {
 		.sample-small {
-			font-size: 1.875rem;
+			font-size: 1.5rem;
 		}
 	}
 
+	/* Hex overlay - shows on color section hover */
 	.hex-overlay {
 		position: absolute;
 		inset: 0;
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		background-color: rgba(0, 0, 0, 0.2);
+		background: rgba(0, 0, 0, 0.25);
 		opacity: 0;
 		transition: opacity 200ms ease;
 	}
 
-	.card-container:hover .hex-overlay {
-		opacity: 1;
-	}
-
 	.hex-value {
-		padding: 0.25rem 0.75rem;
-		border-radius: 0.25rem;
-		background-color: rgba(0, 0, 0, 0.5);
+		padding: 0.5rem 1rem;
+		border-radius: 4px;
+		background: rgba(0, 0, 0, 0.5);
 		font-family: ui-monospace, monospace;
-		font-size: 0.875rem;
+		font-size: 1rem;
+		font-weight: 600;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
 		color: white;
 	}
 
-	.dimple {
+	.copy-hint {
 		position: absolute;
-		bottom: -1px;
-		left: 0;
-		width: 100%;
+		bottom: 1.5rem;
+		font-family: system-ui, sans-serif;
+		font-size: 0.75rem;
+		font-weight: 600;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		color: white;
+		opacity: 0;
+		transform: translateY(10px);
+		transition:
+			opacity 200ms ease,
+			transform 200ms ease;
 	}
 
+	/* Color section hover effects */
+	.color-section:hover .font-samples {
+		opacity: 0;
+		transform: translateY(-10px);
+	}
+
+	.color-section:hover .hex-overlay {
+		opacity: 1;
+	}
+
+	.color-section:hover .copy-hint {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Info section (bottom) */
 	.info-section {
-		flex: 1 1 35%;
+		position: relative;
+		flex: 1 1 32%;
 		display: flex;
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: 1rem;
+		padding: 1rem 0.5rem;
 		text-align: center;
 		cursor: pointer;
 		border: none;
 		background: white;
 		width: 100%;
+		transition: flex 300ms ease;
 	}
 
-	.info-section:focus-visible {
-		outline: 2px solid rgb(203 213 225);
-		outline-offset: -2px;
+	.dimple {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		transform: translateY(-99%);
+	}
+
+	.font-details {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		transition:
+			opacity 200ms ease,
+			transform 200ms ease;
 	}
 
 	.font-name {
-		font-size: 1.125rem;
+		font-size: 0.9rem;
 		font-weight: 600;
 		color: rgb(30 41 59);
-		transition: color 200ms ease;
+		text-transform: uppercase;
+		letter-spacing: 0.03em;
 	}
 
 	@media (min-width: 768px) {
 		.font-name {
-			font-size: 1.25rem;
+			font-size: 1rem;
 		}
-	}
-
-	.card-container:hover .font-name {
-		color: rgb(71 85 105);
 	}
 
 	.font-category {
 		margin-top: 0.25rem;
-		font-size: 0.75rem;
+		font-size: 0.7rem;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
 		color: rgb(148 163 184);
+	}
+
+	.view-hint {
+		position: absolute;
+		font-family: system-ui, sans-serif;
+		font-size: 0.7rem;
+		font-weight: 600;
+		letter-spacing: 0.03em;
+		color: rgb(100 116 139);
+		opacity: 0;
+		transform: translateY(5px);
+		transition:
+			opacity 200ms ease,
+			transform 200ms ease;
+	}
+
+	/* Info section hover effects */
+	.info-section:hover .font-details {
+		opacity: 0;
+		transform: translateY(-5px);
+	}
+
+	.info-section:hover .view-hint {
+		opacity: 1;
+		transform: translateY(0);
+	}
+
+	/* Sliding animation when hovering different sections */
+	.card-inner:has(.color-section:hover) .info-section {
+		flex: 1 1 20%;
+	}
+
+	.card-inner:has(.color-section:hover) .color-section {
+		flex: 1 1 80%;
+	}
+
+	.card-inner:has(.info-section:hover) .color-section {
+		flex: 1 1 55%;
+	}
+
+	.card-inner:has(.info-section:hover) .info-section {
+		flex: 1 1 45%;
+	}
+
+	/* Focus styles */
+	.color-section:focus-visible {
+		outline: 2px solid rgba(255, 255, 255, 0.6);
+		outline-offset: -4px;
+	}
+
+	.info-section:focus-visible {
+		outline: 2px solid rgb(148 163 184);
+		outline-offset: -4px;
 	}
 </style>
