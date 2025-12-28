@@ -1,7 +1,10 @@
 <script lang="ts">
 	import FlipCard from '$lib/components/flip-card.svelte';
+	import type { ColorFormat } from '$lib/contrast';
 	import { get_random_fonts, type Font } from '$lib/fonts';
 	import { get_random_palette, type Palette } from '$lib/palettes';
+	import { format_store } from '$lib/stores/format.svelte';
+	import { theme_store } from '$lib/stores/theme.svelte';
 	import { onMount } from 'svelte';
 	import { backOut } from 'svelte/easing';
 	import { fade, fly, scale } from 'svelte/transition';
@@ -205,9 +208,9 @@
 	<div class="footer-content">
 		<div class="footer-dip">
 			<div class="dip-left"></div>
-			<svg width="46" height="15" viewBox="0 0 46 15">
+			<svg class="dip-svg" width="46" height="15" viewBox="0 0 46 15">
 				<path
-					fill="#ffffff"
+					fill="currentColor"
 					fill-rule="evenodd"
 					d="M0,0 L0,15 L46,15 L46,0 L0,0 Z M1.229,0 C12.122,0 12.122,12.998 23.016,12.998 C33.909,12.998 33.909,0 44.8,0 C55.691,0 -9.664,0 1.229,0 Z"
 				/>
@@ -292,6 +295,97 @@
 	</button>
 {/if}
 
+<!-- Theme toggle -->
+{#if show_refresh}
+	<button
+		class="theme-btn"
+		onclick={() => theme_store.cycle()}
+		aria-label="Toggle theme (current: {theme_store.current})"
+		title="Toggle theme"
+		in:scale={{
+			duration: 300,
+			delay: 100,
+			start: 0.5,
+			easing: backOut,
+		}}
+	>
+		{#if theme_store.current === 'system'}
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="18"
+				height="18"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<rect x="2" y="3" width="20" height="14" rx="2" />
+				<line x1="8" y1="21" x2="16" y2="21" />
+				<line x1="12" y1="17" x2="12" y2="21" />
+			</svg>
+		{:else if theme_store.current === 'light'}
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="18"
+				height="18"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<circle cx="12" cy="12" r="4" />
+				<path d="M12 2v2" />
+				<path d="M12 20v2" />
+				<path d="m4.93 4.93 1.41 1.41" />
+				<path d="m17.66 17.66 1.41 1.41" />
+				<path d="M2 12h2" />
+				<path d="M20 12h2" />
+				<path d="m6.34 17.66-1.41 1.41" />
+				<path d="m19.07 4.93-1.41 1.41" />
+			</svg>
+		{:else}
+			<svg
+				xmlns="http://www.w3.org/2000/svg"
+				width="18"
+				height="18"
+				viewBox="0 0 24 24"
+				fill="none"
+				stroke="currentColor"
+				stroke-width="2"
+				stroke-linecap="round"
+				stroke-linejoin="round"
+			>
+				<path d="M12 3a6 6 0 0 0 9 9 9 9 0 1 1-9-9Z" />
+			</svg>
+		{/if}
+	</button>
+{/if}
+
+<!-- Format selector -->
+{#if show_refresh}
+	<select
+		class="format-select"
+		value={format_store.current}
+		onchange={(e) =>
+			format_store.set(e.currentTarget.value as ColorFormat)}
+		aria-label="Color format"
+		in:scale={{
+			duration: 300,
+			delay: 150,
+			start: 0.5,
+			easing: backOut,
+		}}
+	>
+		<option value="hex">HEX</option>
+		<option value="hsl">HSL</option>
+		<option value="oklch">OKLCH</option>
+	</select>
+{/if}
+
 <!-- Toast notification -->
 {#if toast.visible}
 	<div
@@ -312,10 +406,10 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		background: #f8f8f8;
+		background: var(--bg-page);
 		padding: 1rem;
 		padding-bottom: 8rem;
-		transition: background-color 1s linear;
+		transition: background-color 300ms ease;
 	}
 
 	@media (min-width: 768px) {
@@ -348,7 +442,7 @@
 		margin-top: 2rem;
 		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 		font-size: 0.75rem;
-		color: #999;
+		color: var(--text-subtle);
 		text-align: center;
 	}
 
@@ -409,7 +503,7 @@
 		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 		font-size: 1.5rem;
 		font-weight: bold;
-		color: #000;
+		color: var(--text-primary);
 		text-transform: capitalize;
 	}
 
@@ -418,7 +512,7 @@
 		font-size: 0.8rem;
 		font-weight: bold;
 		letter-spacing: 0.5px;
-		color: #ccc;
+		color: var(--text-faint);
 		margin-top: 0.25rem;
 	}
 
@@ -430,7 +524,7 @@
 		right: 0;
 		height: 70px;
 		z-index: 50;
-		filter: drop-shadow(0 -1px 2px rgba(0, 0, 0, 0.1));
+		filter: drop-shadow(0 -1px 2px var(--shadow-color));
 	}
 
 	.footer-dots {
@@ -449,7 +543,7 @@
 		width: 4px;
 		height: 4px;
 		border-radius: 50%;
-		background: #ccc;
+		background: var(--text-faint);
 	}
 
 	footer:hover .footer-dots {
@@ -475,7 +569,7 @@
 	.dip-left,
 	.dip-right {
 		flex: 1;
-		background: white;
+		background: var(--bg-surface);
 		height: 15px;
 	}
 
@@ -490,6 +584,7 @@
 	.footer-dip svg {
 		flex-shrink: 0;
 		display: block;
+		color: var(--bg-surface);
 	}
 
 	.footer-bottom {
@@ -497,7 +592,7 @@
 		align-items: center;
 		justify-content: space-between;
 		padding: 0 30px;
-		background: white;
+		background: var(--bg-surface);
 		height: 55px;
 		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 	}
@@ -506,13 +601,13 @@
 		font-size: 20px;
 		font-weight: bold;
 		letter-spacing: 0.8px;
-		color: #000;
+		color: var(--text-primary);
 		text-decoration: none;
 	}
 
 	.logo span {
 		font-weight: normal;
-		color: #b2d4dc;
+		color: var(--accent-primary);
 	}
 
 	.about {
@@ -521,11 +616,11 @@
 		transform: translateX(-50%);
 		font-size: 12px;
 		letter-spacing: 0.5px;
-		color: #666;
+		color: var(--text-muted);
 	}
 
 	.about a {
-		color: #bb84a6;
+		color: var(--accent-secondary);
 		text-decoration: none;
 	}
 
@@ -534,12 +629,12 @@
 	}
 
 	.github-link {
-		color: #b2d4dc;
+		color: var(--accent-primary);
 		transition: color 150ms ease;
 	}
 
 	.github-link:hover {
-		color: #333;
+		color: var(--text-primary);
 	}
 
 	/* Hide footer details on small screens */
@@ -570,9 +665,9 @@
 		justify-content: center;
 		border-radius: 9999px;
 		border: none;
-		background-color: white;
-		color: #111;
-		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+		background-color: var(--bg-surface);
+		color: var(--text-primary);
+		box-shadow: 0 2px 4px var(--shadow-color);
 		cursor: pointer;
 		transition: all 300ms ease;
 		z-index: 10;
@@ -580,11 +675,11 @@
 
 	.refresh-btn:hover {
 		transform: translateX(-50%) scale(1.1);
-		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+		box-shadow: 0 4px 12px var(--shadow-strong);
 	}
 
 	.refresh-btn:focus-visible {
-		outline: 2px solid rgb(203 213 225);
+		outline: 2px solid var(--accent-primary);
 		outline-offset: 2px;
 	}
 
@@ -596,6 +691,69 @@
 		transform: rotate(-180deg);
 	}
 
+	/* Theme toggle button - top right */
+	.theme-btn {
+		position: fixed;
+		top: 20px;
+		right: 20px;
+		display: flex;
+		height: 40px;
+		width: 40px;
+		align-items: center;
+		justify-content: center;
+		border-radius: 9999px;
+		border: none;
+		background-color: var(--bg-surface);
+		color: var(--text-primary);
+		box-shadow: 0 2px 4px var(--shadow-color);
+		cursor: pointer;
+		transition: all 200ms ease;
+		z-index: 10;
+	}
+
+	.theme-btn:hover {
+		transform: scale(1.1);
+		box-shadow: 0 4px 12px var(--shadow-strong);
+	}
+
+	.theme-btn:focus-visible {
+		outline: 2px solid var(--accent-primary);
+		outline-offset: 2px;
+	}
+
+	/* Format selector - top right, below theme toggle */
+	.format-select {
+		position: fixed;
+		top: 70px;
+		right: 20px;
+		padding: 0.5rem 0.75rem;
+		border-radius: 8px;
+		border: none;
+		background-color: var(--bg-surface);
+		color: var(--text-primary);
+		font-family: ui-monospace, monospace;
+		font-size: 0.75rem;
+		font-weight: 600;
+		box-shadow: 0 2px 4px var(--shadow-color);
+		cursor: pointer;
+		transition: all 200ms ease;
+		z-index: 10;
+		appearance: none;
+		padding-right: 1.5rem;
+		background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23666' stroke-width='2'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+		background-repeat: no-repeat;
+		background-position: right 0.5rem center;
+	}
+
+	.format-select:hover {
+		box-shadow: 0 4px 12px var(--shadow-strong);
+	}
+
+	.format-select:focus-visible {
+		outline: 2px solid var(--accent-primary);
+		outline-offset: 2px;
+	}
+
 	/* Toast */
 	.toast {
 		position: fixed;
@@ -605,7 +763,7 @@
 		z-index: 50;
 		padding: 0.5rem 1rem;
 		border-radius: 0.5rem;
-		background-color: rgb(30 41 59);
+		background-color: var(--bg-toast);
 		font-family: ui-monospace, monospace;
 		font-size: 0.875rem;
 		color: white;

@@ -21,11 +21,14 @@ samples. Every refresh shows fresh inspiration. That's it.
   transitions
 - **Responsive** — works on mobile and desktop
 - **Contrast-aware** — text automatically adjusts for readability
+- **Dark mode** — system preference + manual toggle
+- **WCAG contrast badges** — see accessibility ratings at a glance
+- **Color formats** — switch between HEX, HSL, and OKLCH
+- **Reduced motion** — respects `prefers-reduced-motion`
 
 ## Tech Stack
 
 - [SvelteKit](https://kit.svelte.dev/) with Svelte 5 runes
-- [Tailwind CSS](https://tailwindcss.com/) v4
 - [Fontsource](https://fontsource.org/) variable fonts
 - No external API dependencies — everything bundled
 

@@ -1,6 +1,12 @@
 <script lang="ts">
-	import { get_contrast_color } from '$lib/contrast';
+	import {
+		format_color,
+		get_contrast_color,
+		get_contrast_ratio,
+		get_wcag_rating,
+	} from '$lib/contrast';
 	import { get_fontsource_url, type Font } from '$lib/fonts';
+	import { format_store } from '$lib/stores/format.svelte';
 
 	interface Props {
 		color: string;
@@ -23,6 +29,13 @@
 	}: Props = $props();
 
 	const text_color = $derived(get_contrast_color(color));
+	const formatted_color = $derived(
+		format_color(color, format_store.current),
+	);
+	const contrast_ratio = $derived(
+		get_contrast_ratio(text_color, color),
+	);
+	const wcag_rating = $derived(get_wcag_rating(contrast_ratio));
 
 	function open_fontsource() {
 		window.open(
@@ -65,7 +78,14 @@
 		</div>
 
 		<div class="hex-overlay">
-			<span class="hex-value">{color}</span>
+			<span class="hex-value">{formatted_color}</span>
+			<span
+				class="wcag-badge"
+				class:aaa={wcag_rating === 'AAA'}
+				class:aa={wcag_rating === 'AA'}
+			>
+				{wcag_rating}
+			</span>
 		</div>
 
 		<span class="copy-hint">Click to copy</span>
@@ -83,7 +103,7 @@
 		>
 			<path
 				d="M0,12 L0,0 L115,0 Q125,12 135,0 L250,0 L250,12 Z"
-				fill="white"
+				fill="currentColor"
 			/>
 		</svg>
 
@@ -190,10 +210,10 @@
 		inset: 0;
 		backface-visibility: hidden;
 		border-radius: 8px;
-		background: white;
+		background: var(--bg-surface);
 		box-shadow:
-			0 10px 30px -5px rgba(0, 0, 0, 0.15),
-			0 5px 15px -5px rgba(0, 0, 0, 0.1);
+			0 10px 30px -5px var(--shadow-color),
+			0 5px 15px -5px var(--shadow-color);
 		overflow: hidden;
 		transition:
 			box-shadow 300ms ease,
@@ -211,8 +231,8 @@
 	/* 3D hover lift on the whole card */
 	.card-container:hover .card-face {
 		box-shadow:
-			0 25px 50px -10px rgba(0, 0, 0, 0.2),
-			0 15px 30px -10px rgba(0, 0, 0, 0.15);
+			0 25px 50px -10px var(--shadow-strong),
+			0 15px 30px -10px var(--shadow-color);
 		transform: rotateY(0deg) translateY(-8px) scale(1.02);
 	}
 
@@ -295,6 +315,7 @@
 		position: absolute;
 		inset: 0;
 		display: flex;
+		flex-direction: column;
 		align-items: center;
 		justify-content: center;
 		background: rgba(0, 0, 0, 0.25);
@@ -307,11 +328,32 @@
 		border-radius: 4px;
 		background: rgba(0, 0, 0, 0.5);
 		font-family: ui-monospace, monospace;
-		font-size: 1rem;
+		font-size: 0.75rem;
 		font-weight: 600;
-		letter-spacing: 0.05em;
-		text-transform: uppercase;
+		letter-spacing: 0.02em;
 		color: white;
+	}
+
+	.wcag-badge {
+		margin-top: 0.5rem;
+		padding: 0.25rem 0.5rem;
+		border-radius: 4px;
+		font-family: system-ui, sans-serif;
+		font-size: 0.65rem;
+		font-weight: 700;
+		letter-spacing: 0.05em;
+		background: rgba(239, 68, 68, 0.8);
+		color: white;
+	}
+
+	.wcag-badge.aa {
+		background: rgba(234, 179, 8, 0.9);
+		color: #000;
+	}
+
+	.wcag-badge.aaa {
+		background: rgba(34, 197, 94, 0.9);
+		color: #000;
 	}
 
 	.copy-hint {
@@ -357,7 +399,7 @@
 		text-align: center;
 		cursor: pointer;
 		border: none;
-		background: white;
+		background: var(--bg-surface);
 		width: 100%;
 		transition: flex 300ms ease;
 	}
@@ -368,6 +410,7 @@
 		left: 0;
 		width: 100%;
 		transform: translateY(-99%);
+		color: var(--bg-surface);
 	}
 
 	.font-details {
@@ -382,7 +425,7 @@
 	.font-name {
 		font-size: 0.9rem;
 		font-weight: 600;
-		color: rgb(30 41 59);
+		color: var(--text-primary);
 		text-transform: uppercase;
 		letter-spacing: 0.03em;
 	}
@@ -398,7 +441,7 @@
 		font-size: 0.7rem;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
-		color: rgb(148 163 184);
+		color: var(--text-muted);
 	}
 
 	/* Eye icon container - appears below font details on hover */
@@ -463,7 +506,7 @@
 	}
 
 	.info-section:focus-visible {
-		outline: 2px solid rgb(148 163 184);
+		outline: 2px solid var(--accent-primary);
 		outline-offset: -4px;
 	}
 </style>
