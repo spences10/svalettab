@@ -2,8 +2,9 @@
 	import FlipCard from '$lib/components/flip-card.svelte';
 	import { get_random_fonts, type Font } from '$lib/fonts';
 	import { get_random_palette, type Palette } from '$lib/palettes';
+	import { onMount } from 'svelte';
 	import { backOut } from 'svelte/easing';
-	import { fly } from 'svelte/transition';
+	import { fade, fly, scale } from 'svelte/transition';
 
 	let palette = $state<Palette>(get_random_palette());
 	let fonts = $state<Font[]>(get_random_fonts(5));
@@ -13,15 +14,37 @@
 	let toast_timeout: ReturnType<typeof setTimeout> | null = null;
 	let refreshing = $state(false);
 
+	// Initial load animation states
+	let show_cards = $state(false);
+	let show_info = $state(false);
+	let show_refresh = $state(false);
+
+	onMount(() => {
+		// Sequence the initial load like original Palettab
+		// 0ms: Show loader (handled by initial state)
+		// 800ms: Cards fly in
+		// 1400ms: Info bar appears
+		// 1800ms: Refresh button pops in
+		setTimeout(() => {
+			show_cards = true;
+		}, 600);
+
+		setTimeout(() => {
+			show_info = true;
+		}, 1400);
+
+		setTimeout(() => {
+			show_refresh = true;
+		}, 1800);
+	});
+
 	function refresh() {
 		if (refreshing) return;
 		refreshing = true;
 
-		// Flip the cards
 		flipped = !flipped;
 		generation++;
 
-		// Update data after a short delay (while cards are mid-flip)
 		setTimeout(() => {
 			palette = get_random_palette();
 			fonts = get_random_fonts(5);
@@ -62,72 +85,103 @@
 <svelte:window onkeydown={handle_keydown} />
 
 <main class="main-container">
+	<!-- Loading indicator (shows before cards) -->
+	{#if !show_cards}
+		<div class="loader" out:fade={{ duration: 200 }}>
+			<div class="loader-grid">
+				{#each palette.colors as color, i}
+					<div
+						class="loader-dot"
+						style="background-color: {color}; animation-delay: {i *
+							80}ms;"
+					></div>
+				{/each}
+			</div>
+		</div>
+	{/if}
+
+	<!-- Cards -->
 	<div class="cards-wrapper">
-		{#each palette.colors as color, i (i)}
-			<FlipCard
-				{color}
-				font={fonts[i]}
-				index={i}
-				{generation}
-				{flipped}
-				on_copy_hex={copy_hex}
-			/>
-		{/each}
+		{#if show_cards}
+			{#each palette.colors as color, i (i)}
+				<FlipCard
+					{color}
+					font={fonts[i]}
+					index={i}
+					{generation}
+					{flipped}
+					on_copy_hex={copy_hex}
+				/>
+			{/each}
+		{/if}
 	</div>
 </main>
 
 <!-- Palette info bar -->
 <div class="info-bar">
-	{#key generation}
-		<div
-			class="color-swatches"
-			in:fly={{ y: 20, duration: 300, easing: backOut }}
-		>
-			{#each palette.colors as color}
-				<div class="swatch" style="background-color: {color};"></div>
-			{/each}
-		</div>
-		<p
-			class="palette-name"
-			in:fly={{ y: 20, duration: 300, delay: 50, easing: backOut }}
-		>
-			{palette.name}
-		</p>
-		{#if palette.author}
-			<p
-				class="palette-author"
-				in:fly={{ y: 20, duration: 300, delay: 100, easing: backOut }}
+	{#if show_info}
+		{#key generation}
+			<div
+				class="color-swatches"
+				in:fly={{ y: 20, duration: 300, easing: backOut }}
 			>
-				by {palette.author}
+				{#each palette.colors as color}
+					<div
+						class="swatch"
+						style="background-color: {color};"
+					></div>
+				{/each}
+			</div>
+			<p
+				class="palette-name"
+				in:fly={{ y: 20, duration: 300, delay: 50, easing: backOut }}
+			>
+				{palette.name}
 			</p>
-		{/if}
-	{/key}
+			{#if palette.author}
+				<p
+					class="palette-author"
+					in:fly={{
+						y: 20,
+						duration: 300,
+						delay: 100,
+						easing: backOut,
+					}}
+				>
+					by {palette.author}
+				</p>
+			{/if}
+		{/key}
+	{/if}
 </div>
 
 <!-- Refresh button -->
-<button
-	class="refresh-btn"
-	class:spinning={refreshing}
-	onclick={refresh}
-	aria-label="Generate new palette (press Space or R)"
-	title="Generate new palette (Space or R)"
->
-	<svg
-		xmlns="http://www.w3.org/2000/svg"
-		width="20"
-		height="20"
-		viewBox="0 0 24 24"
-		fill="none"
-		stroke="currentColor"
-		stroke-width="2"
-		stroke-linecap="round"
-		stroke-linejoin="round"
-		class="refresh-icon"
+{#if show_refresh}
+	<button
+		class="refresh-btn"
+		class:spinning={refreshing}
+		onclick={refresh}
+		aria-label="Generate new palette (press Space or R)"
+		title="Generate new palette (Space or R)"
+		in:scale={{ duration: 300, start: 0.5, easing: backOut }}
 	>
-		<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
-		<path d="M21 3v5h-5" />
-	</svg>
-</button>
+		<svg
+			xmlns="http://www.w3.org/2000/svg"
+			width="20"
+			height="20"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="2"
+			stroke-linecap="round"
+			stroke-linejoin="round"
+			class="refresh-icon"
+		>
+			<path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+			<path d="M21 3v5h-5" />
+		</svg>
+	</button>
+{/if}
 
 <!-- Toast notification -->
 {#if toast.visible}
@@ -149,9 +203,10 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		background: linear-gradient(to bottom right, #f1f5f9, #e2e8f0);
+		background: #f8f8f8;
 		padding: 1rem;
 		padding-bottom: 8rem;
+		transition: background-color 1s linear;
 	}
 
 	@media (min-width: 768px) {
@@ -161,18 +216,54 @@
 		}
 	}
 
+	/* Loader - like original Palettab */
+	.loader {
+		position: absolute;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	.loader-grid {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 3px;
+	}
+
+	.loader-dot {
+		width: 10px;
+		height: 10px;
+		animation: loader-snake 0.5s ease-in-out infinite;
+	}
+
+	@keyframes loader-snake {
+		0%,
+		100% {
+			opacity: 0.4;
+		}
+		50% {
+			opacity: 1;
+		}
+	}
+
 	.cards-wrapper {
 		display: flex;
 		flex-wrap: wrap;
 		align-items: center;
 		justify-content: center;
-		gap: 1rem;
+		gap: 0.5rem;
 		perspective: 1800px;
 	}
 
 	@media (min-width: 768px) {
 		.cards-wrapper {
-			gap: 1.5rem;
+			gap: 0.75rem;
+		}
+	}
+
+	@media (min-width: 1024px) {
+		.cards-wrapper {
+			gap: 1rem;
 		}
 	}
 
@@ -186,68 +277,71 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		padding: 1rem;
-		background-color: rgba(255, 255, 255, 0.8);
+		padding: 1.25rem;
+		background-color: rgba(255, 255, 255, 0.9);
 		backdrop-filter: blur(8px);
+		min-height: 90px;
 	}
 
 	.color-swatches {
 		display: flex;
-		gap: 2px;
+		gap: 0;
 		overflow: hidden;
-		border-radius: 0.25rem;
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.75rem;
+		transition: transform 100ms ease-out;
+	}
+
+	.color-swatches:hover {
+		transform: scaleX(1.3);
 	}
 
 	.swatch {
-		width: 2rem;
-		height: 0.75rem;
+		width: 33px;
+		height: 5px;
+		margin-left: -1px;
 	}
 
 	.palette-name {
-		font-size: 1.125rem;
-		font-weight: 600;
-		color: rgb(51 65 85);
+		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		font-size: 1.5rem;
+		font-weight: bold;
+		color: #000;
+		text-transform: capitalize;
 	}
 
 	.palette-author {
-		font-size: 0.875rem;
-		color: rgb(148 163 184);
+		font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+		font-size: 0.8rem;
+		font-weight: bold;
+		letter-spacing: 0.5px;
+		color: #ccc;
+		margin-top: 0.25rem;
 	}
 
-	/* Refresh button */
+	/* Refresh button - positioned like original */
 	.refresh-btn {
 		position: fixed;
-		right: 1rem;
-		bottom: 5rem;
+		top: 60px;
+		left: 50%;
+		transform: translateX(-50%);
 		display: flex;
-		height: 3rem;
-		width: 3rem;
+		height: 50px;
+		width: 50px;
 		align-items: center;
 		justify-content: center;
 		border-radius: 9999px;
 		border: none;
 		background-color: white;
-		color: rgb(71 85 105);
-		box-shadow:
-			0 10px 15px -3px rgb(0 0 0 / 0.1),
-			0 4px 6px -4px rgb(0 0 0 / 0.1);
+		color: #111;
+		box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 		cursor: pointer;
 		transition: all 300ms ease;
-	}
-
-	@media (min-width: 768px) {
-		.refresh-btn {
-			right: 1.5rem;
-			bottom: 6rem;
-		}
+		z-index: 10;
 	}
 
 	.refresh-btn:hover {
-		transform: scale(1.1);
-		box-shadow:
-			0 20px 25px -5px rgb(0 0 0 / 0.1),
-			0 8px 10px -6px rgb(0 0 0 / 0.1);
+		transform: translateX(-50%) scale(1.1);
+		box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
 	}
 
 	.refresh-btn:focus-visible {
@@ -256,7 +350,7 @@
 	}
 
 	.refresh-icon {
-		transition: transform 500ms cubic-bezier(0.4, 0, 0.2, 1);
+		transition: transform 500ms cubic-bezier(0.85, -0.48, 0.26, 0.67);
 	}
 
 	.refresh-btn.spinning .refresh-icon {
