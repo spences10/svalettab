@@ -55,19 +55,19 @@
 		init_loader_colors();
 		const loader_interval = setInterval(rotate_loader_colors, 50);
 
-		// Timing like original Palettab
+		// Timing
 		setTimeout(() => {
 			show_cards = true;
 			clearInterval(loader_interval);
-		}, 2000);
+		}, 1200);
 
 		setTimeout(() => {
 			show_info = true;
-		}, 2200);
+		}, 1400);
 
 		setTimeout(() => {
 			show_refresh = true;
-		}, 2500);
+		}, 1700);
 	});
 
 	function refresh() {
