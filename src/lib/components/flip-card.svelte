@@ -121,8 +121,23 @@
 						</span>
 					</div>
 
-					<!-- View hint -->
-					<span class="view-hint">View on Fontsource →</span>
+					<!-- Eye icon (view hint) -->
+					<div class="eye-container">
+						<svg
+							class="eye-icon"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke={color}
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path
+								d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+							/>
+							<circle cx="12" cy="12" r="3" />
+						</svg>
+					</div>
 				</button>
 			</div>
 		</div>
@@ -186,7 +201,22 @@
 						</span>
 					</div>
 
-					<span class="view-hint">View on Fontsource →</span>
+					<div class="eye-container">
+						<svg
+							class="eye-icon"
+							viewBox="0 0 24 24"
+							fill="none"
+							stroke={color}
+							stroke-width="2"
+							stroke-linecap="round"
+							stroke-linejoin="round"
+						>
+							<path
+								d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"
+							/>
+							<circle cx="12" cy="12" r="3" />
+						</svg>
+					</div>
 				</button>
 			</div>
 		</div>
@@ -449,46 +479,59 @@
 		color: rgb(148 163 184);
 	}
 
-	.view-hint {
-		position: absolute;
-		font-family: system-ui, sans-serif;
-		font-size: 0.7rem;
-		font-weight: 600;
-		letter-spacing: 0.03em;
-		color: rgb(100 116 139);
+	/* Eye icon container - appears below font details on hover */
+	.eye-container {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		margin-top: 0.5rem;
+		height: 0;
 		opacity: 0;
-		transform: translateY(5px);
-		transition:
-			opacity 200ms ease,
-			transform 200ms ease;
+		overflow: hidden;
+		transition: all 300ms ease;
 	}
 
-	/* Info section hover effects */
-	.info-section:hover .font-details {
-		opacity: 0;
-		transform: translateY(-5px);
+	.eye-icon {
+		width: 28px;
+		height: 28px;
+		transition: all 300ms ease;
 	}
 
-	.info-section:hover .view-hint {
+	/* Info section hover - show eye icon below font info */
+	.info-section:hover .eye-container {
+		height: 36px;
 		opacity: 1;
-		transform: translateY(0);
 	}
 
 	/* Sliding animation when hovering different sections */
 	.card-inner:has(.color-section:hover) .info-section {
-		flex: 1 1 20%;
+		flex: 1 1 18%;
 	}
 
 	.card-inner:has(.color-section:hover) .color-section {
-		flex: 1 1 80%;
+		flex: 1 1 82%;
 	}
 
+	.card-inner:has(.color-section:hover) .font-details {
+		opacity: 0;
+	}
+
+	.card-inner:has(.color-section:hover) .eye-container {
+		opacity: 0;
+	}
+
+	/* When hovering info section - color section slides up, info expands */
 	.card-inner:has(.info-section:hover) .color-section {
-		flex: 1 1 55%;
+		flex: 1 1 45%;
+	}
+
+	.card-inner:has(.info-section:hover) .color-section .font-samples {
+		transform: translateY(-15px);
+		opacity: 0.6;
 	}
 
 	.card-inner:has(.info-section:hover) .info-section {
-		flex: 1 1 45%;
+		flex: 1 1 55%;
 	}
 
 	/* Focus styles */
