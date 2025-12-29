@@ -88,7 +88,7 @@
 			</span>
 		</div>
 
-		<span class="copy-hint">Click to copy</span>
+		<span class="copy-hint" style="color: {text_color};">Click to copy</span>
 	</button>
 
 	<button
@@ -363,7 +363,6 @@
 		font-weight: 600;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
-		color: white;
 		opacity: 0;
 		transform: translateY(10px);
 		transition:
