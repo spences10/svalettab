@@ -59,6 +59,32 @@ Generate store assets from source images in `store-assets/source/`:
 mkdir -p store-assets/output && cd store-assets/source && i=1; for f in *.png; do magick "$f" -resize 1280x800^ -gravity center -extent 1280x800 "../output/screenshot-${i}.png" && echo "Resized $f -> screenshot-${i}"; i=$((i+1)); done
 ```
 
+## Publishing to Stores
+
+### Chrome Web Store
+
+1. Register at
+   [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole)
+   ($5 one-time fee)
+2. Build the extension: `pnpm build:extension`
+3. Zip the chrome build:
+   `cd dist-extension && zip -r chrome.zip chrome/`
+4. Upload `chrome.zip` in the dashboard
+5. Add screenshots from `store-assets/output/`
+6. Submit for review
+
+### Firefox Add-ons (AMO)
+
+1. Register at
+   [Firefox Add-on Developer Hub](https://addons.mozilla.org/developers/)
+2. Build the extension: `pnpm build:extension`
+3. Zip the firefox build:
+   `cd dist-extension && zip -r firefox.zip firefox/`
+4. Upload `firefox.zip` at
+   [Submit a New Add-on](https://addons.mozilla.org/developers/addon/submit/)
+5. Add screenshots from `store-assets/output/`
+6. Submit for review
+
 ## Keyboard Shortcuts
 
 | Key     | Action               |
