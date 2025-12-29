@@ -88,7 +88,7 @@
 			</span>
 		</div>
 
-		<span class="copy-hint">Click to copy</span>
+		<span class="copy-hint" style="color: {text_color};">Click to copy</span>
 	</button>
 
 	<button
@@ -318,7 +318,6 @@
 		flex-direction: column;
 		align-items: center;
 		justify-content: center;
-		background: rgba(0, 0, 0, 0.25);
 		opacity: 0;
 		transition: opacity 200ms ease;
 	}
@@ -364,7 +363,6 @@
 		font-weight: 600;
 		letter-spacing: 0.05em;
 		text-transform: uppercase;
-		color: white;
 		opacity: 0;
 		transform: translateY(10px);
 		transition:
@@ -419,7 +417,8 @@
 		align-items: center;
 		transition:
 			opacity 200ms ease,
-			transform 200ms ease;
+			transform 200ms ease,
+			height 300ms ease;
 	}
 
 	.font-name {
@@ -479,10 +478,14 @@
 
 	.card-inner:has(.color-section:hover) .font-details {
 		opacity: 0;
+		height: 0;
+		margin: 0;
+		overflow: hidden;
 	}
 
 	.card-inner:has(.color-section:hover) .eye-container {
-		opacity: 0;
+		height: 36px;
+		opacity: 1;
 	}
 
 	/* When hovering info section - color section slides up, info expands */

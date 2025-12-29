@@ -46,6 +46,17 @@ pnpm check
 
 # Build for production
 pnpm build
+
+# Build browser extension
+pnpm build:extension
+```
+
+## Store Screenshots
+
+Generate store assets from source images in `store-assets/source/`:
+
+```bash
+mkdir -p store-assets/output && cd store-assets/source && i=1; for f in *.png; do magick "$f" -resize 1280x800^ -gravity center -extent 1280x800 "../output/screenshot-${i}.png" && echo "Resized $f -> screenshot-${i}"; i=$((i+1)); done
 ```
 
 ## Keyboard Shortcuts
