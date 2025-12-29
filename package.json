@@ -1,7 +1,7 @@
 {
 	"name": "svalettab",
 	"private": true,
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"type": "module",
 	"scripts": {
 		"dev": "vite dev",
@@ -15,7 +15,10 @@
 		"lint": "prettier --check . && eslint .",
 		"test:unit": "vitest",
 		"test": "npm run test:unit -- --run && npm run test:e2e",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test",
+		"changeset": "changeset",
+		"version": "changeset version",
+		"release": "pnpm build:extension"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.29.8",

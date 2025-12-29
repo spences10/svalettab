@@ -1,7 +1,7 @@
 {
 	"manifest_version": 3,
 	"name": "Svalettab",
-	"version": "0.0.1",
+	"version": "0.0.0",
 	"description": "Random color palettes with font samples. Get inspired.",
 	"browser_specific_settings": {
 		"gecko": {

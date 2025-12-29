@@ -78,6 +78,25 @@ async function build() {
 	);
 	const version = pkg.version;
 
+	// Update source manifests with version
+	for (const browser of ['chrome', 'firefox']) {
+		const srcManifestPath = join(
+			ROOT,
+			'extension',
+			browser,
+			'manifest.json',
+		);
+		const manifest = JSON.parse(
+			readFileSync(srcManifestPath, 'utf8'),
+		);
+		manifest.version = version;
+		writeFileSync(
+			srcManifestPath,
+			JSON.stringify(manifest, null, '\t') + '\n',
+		);
+	}
+	console.log(`Updated source manifests to version ${version}`);
+
 	// Build for each browser
 	for (const browser of ['chrome', 'firefox']) {
 		console.log(`Packaging for ${browser}...`);
