@@ -5,10 +5,18 @@ A modern replacement for
 extension that's been abandoned for 10+ years. Built with SvelteKit
 and Fontsource.
 
+[![Chrome Web Store](https://img.shields.io/chrome-web-store/v/djdfhckjjogpnppbbpenbfagjedlhjbl?style=flat&logo=googlechrome&logoColor=white&label=Chrome)](https://chromewebstore.google.com/detail/djdfhckjjogpnppbbpenbfagjedlhjbl)
+[![Firefox Add-on](https://img.shields.io/amo/v/svalettab?style=flat&logo=firefox&logoColor=white&label=Firefox)](https://addons.mozilla.org/firefox/addon/svalettab)
+
 ## What is it?
 
 A single-page app that displays a random color palette with font
 samples. Every refresh shows fresh inspiration. That's it.
+
+## Install
+
+- **[Chrome Web Store](https://chromewebstore.google.com/detail/djdfhckjjogpnppbbpenbfagjedlhjbl)**
+- **[Firefox Add-ons](https://addons.mozilla.org/firefox/addon/svalettab)**
 
 ## Features
 
