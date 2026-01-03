@@ -88,7 +88,9 @@
 			</span>
 		</div>
 
-		<span class="copy-hint" style="color: {text_color};">Click to copy</span>
+		<span class="copy-hint" style="color: {text_color};">
+			Click to copy
+		</span>
 	</button>
 
 	<button
