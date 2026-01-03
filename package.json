@@ -18,7 +18,7 @@
 		"test:e2e": "playwright test",
 		"changeset": "changeset",
 		"version": "changeset version",
-		"release": "pnpm build:extension"
+		"release": "git tag v$npm_package_version && git push origin v$npm_package_version"
 	},
 	"devDependencies": {
 		"@changesets/cli": "^2.29.8",
