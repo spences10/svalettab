@@ -4,6 +4,7 @@
 	import { get_random_fonts, type Font } from '$lib/fonts';
 	import { get_random_palette, type Palette } from '$lib/palettes';
 	import { format_store } from '$lib/stores/format.svelte';
+	import { loader_store } from '$lib/stores/loader.svelte';
 	import { theme_store } from '$lib/stores/theme.svelte';
 	import { onMount } from 'svelte';
 	import { backOut } from 'svelte/easing';
@@ -55,6 +56,14 @@
 	}
 
 	onMount(() => {
+		if (!loader_store.enabled) {
+			// Skip loader animation
+			show_cards = true;
+			show_info = true;
+			show_refresh = true;
+			return;
+		}
+
 		init_loader_colors();
 		const loader_interval = setInterval(rotate_loader_colors, 50);
 
@@ -384,6 +393,32 @@
 		<option value="hsl">HSL</option>
 		<option value="oklch">OKLCH</option>
 	</select>
+{/if}
+
+<!-- Loader toggle -->
+{#if show_refresh}
+	<button
+		class="loader-toggle"
+		class:enabled={loader_store.enabled}
+		onclick={() => loader_store.toggle()}
+		aria-label="Toggle loading animation (currently {loader_store.enabled
+			? 'on'
+			: 'off'})"
+		title="Loading animation: {loader_store.enabled ? 'ON' : 'OFF'}"
+		in:scale={{
+			duration: 300,
+			delay: 200,
+			start: 0.5,
+			easing: backOut,
+		}}
+	>
+		<div class="loader-icon">
+			{#each { length: 9 } as _, i}
+				<span style="background-color: {palette.colors[i % 5]};"
+				></span>
+			{/each}
+		</div>
+	</button>
 {/if}
 
 <!-- Toast notification -->
@@ -752,6 +787,58 @@
 	.format-select:focus-visible {
 		outline: 2px solid var(--accent-primary);
 		outline-offset: 2px;
+	}
+
+	/* Loader toggle - below format selector */
+	.loader-toggle {
+		position: fixed;
+		top: 115px;
+		right: 20px;
+		display: flex;
+		height: 36px;
+		width: 36px;
+		align-items: center;
+		justify-content: center;
+		border-radius: 8px;
+		border: none;
+		background-color: var(--bg-surface);
+		box-shadow: 0 2px 4px var(--shadow-color);
+		cursor: pointer;
+		transition: all 200ms ease;
+		z-index: 10;
+		opacity: 0.5;
+	}
+
+	.loader-toggle.enabled {
+		opacity: 1;
+	}
+
+	.loader-toggle:hover {
+		transform: scale(1.1);
+		box-shadow: 0 4px 12px var(--shadow-strong);
+		opacity: 1;
+	}
+
+	.loader-toggle:focus-visible {
+		outline: 2px solid var(--accent-primary);
+		outline-offset: 2px;
+	}
+
+	.loader-icon {
+		display: grid;
+		grid-template-columns: repeat(3, 1fr);
+		gap: 1px;
+	}
+
+	.loader-icon span {
+		width: 8px;
+		height: 8px;
+		transition: opacity 200ms ease;
+	}
+
+	.loader-toggle:not(.enabled) .loader-icon span {
+		filter: grayscale(100%);
+		opacity: 0.4;
 	}
 
 	/* Toast */
