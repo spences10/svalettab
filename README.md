@@ -8,6 +8,14 @@ and Fontsource.
 [![Chrome Web Store](https://img.shields.io/chrome-web-store/v/djdfhckjjogpnppbbpenbfagjedlhjbl?style=flat&logo=googlechrome&logoColor=white&label=Chrome)](https://chromewebstore.google.com/detail/djdfhckjjogpnppbbpenbfagjedlhjbl)
 [![Firefox Add-on](https://img.shields.io/amo/v/svalettab?style=flat&logo=firefox&logoColor=white&label=Firefox)](https://addons.mozilla.org/firefox/addon/svalettab)
 
+<p align="center">
+  <img src="store-assets/output/screenshot-1.png" alt="Svalettab screenshot - light mode" width="600">
+</p>
+
+<p align="center">
+  <img src="store-assets/output/screenshot-2.png" alt="Svalettab screenshot - dark mode" width="600">
+</p>
+
 ## What is it?
 
 A single-page app that displays a random color palette with font
@@ -21,12 +29,17 @@ samples. Every refresh shows fresh inspiration. That's it.
 ## Features
 
 - **50 curated color palettes** — hand-picked for design inspiration
-- **18 variable fonts** — from Fontsource, beautifully rendered
+- **56 variable fonts** — quality fonts from Fontsource, including
+  experimental/display faces
+- **Smart font rotation** — tracks seen fonts, prioritizes showing new
+  ones
 - **Click to copy** — tap any color to copy the hex code
 - **Font links** — click font names to explore on Fontsource
 - **Keyboard shortcuts** — press `Space` or `R` to refresh
 - **Smooth animations** — cards fly in with satisfying Svelte
   transitions
+- **Loading animation toggle** — optional retro loading animation (on
+  by default)
 - **Responsive** — works on mobile and desktop
 - **Contrast-aware** — text automatically adjusts for readability
 - **Dark mode** — system preference + manual toggle
