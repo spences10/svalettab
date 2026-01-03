@@ -69,7 +69,27 @@ mkdir -p store-assets/output && cd store-assets/source && i=1; for f in *.png; d
 
 ## Publishing to Stores
 
-### Chrome Web Store
+### Automated (GitHub Actions)
+
+Push a version tag to trigger publishing to both stores:
+
+```bash
+git tag v1.0.0
+git push origin v1.0.0
+```
+
+**Required secrets** (Settings → Secrets → Actions):
+
+| Secret                 | Source                                                               |
+| ---------------------- | -------------------------------------------------------------------- |
+| `CHROME_EXTENSION_ID`  | From Chrome Web Store URL                                            |
+| `CHROME_CLIENT_ID`     | [Google Cloud Console](https://console.cloud.google.com/) OAuth      |
+| `CHROME_CLIENT_SECRET` | Google Cloud Console OAuth                                           |
+| `CHROME_REFRESH_TOKEN` | [OAuth Playground](https://developers.google.com/oauthplayground)    |
+| `FIREFOX_JWT_ISSUER`   | [AMO API Keys](https://addons.mozilla.org/developers/addon/api/key/) |
+| `FIREFOX_JWT_SECRET`   | AMO API Keys                                                         |
+
+### Manual: Chrome Web Store
 
 1. Register at
    [Chrome Web Store Developer Dashboard](https://chrome.google.com/webstore/devconsole)
@@ -81,7 +101,7 @@ mkdir -p store-assets/output && cd store-assets/source && i=1; for f in *.png; d
 5. Add screenshots from `store-assets/output/`
 6. Submit for review
 
-### Firefox Add-ons (AMO)
+### Manual: Firefox Add-ons (AMO)
 
 1. Register at
    [Firefox Add-on Developer Hub](https://addons.mozilla.org/developers/)

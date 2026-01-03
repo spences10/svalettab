@@ -1,138 +1,143 @@
-#!/usr/bin/env node
+#!/usr/bin/env -S node --experimental-strip-types
 import archiver from 'archiver';
+import { execSync } from 'node:child_process';
 import {
 	cpSync,
+	createWriteStream,
 	existsSync,
 	mkdirSync,
 	readFileSync,
 	rmSync,
 	writeFileSync,
-} from 'fs';
-import { execSync } from 'node:child_process';
-import { createWriteStream } from 'node:fs';
+} from 'node:fs';
 import { join } from 'node:path';
 
 const ROOT = process.cwd();
 const BUILD_DIR = join(ROOT, 'build');
 const DIST_DIR = join(ROOT, 'dist-extension');
 
+const BROWSERS = ['chrome', 'firefox'] as const;
+type Browser = (typeof BROWSERS)[number];
+
+interface PackageJson {
+	version: string;
+}
+
+interface Manifest {
+	version: string;
+	[key: string]: unknown;
+}
+
 /**
  * Extract inline scripts from HTML and save to external file
  * Required for MV3 CSP compliance
  */
-function extractInlineScripts(htmlPath, scriptPath) {
-	let html = readFileSync(htmlPath, 'utf8');
+function extract_inline_scripts(
+	html_path: string,
+	script_path: string,
+): void {
+	let html = readFileSync(html_path, 'utf8');
 
-	// Find inline script in body (SvelteKit hydration script)
-	const scriptRegex =
+	const script_regex =
 		/<script>\s*\{[\s\S]*?__sveltekit[\s\S]*?\}\s*<\/script>/;
-	const match = html.match(scriptRegex);
+	const match = html.match(script_regex);
 
 	if (match) {
-		// Extract script content (remove <script> tags)
-		let scriptContent = match[0]
+		const script_content = match[0]
 			.replace(/^<script>\s*/, '')
 			.replace(/\s*<\/script>$/, '');
 
-		// Write to external file
-		writeFileSync(scriptPath, scriptContent);
+		writeFileSync(script_path, script_content);
 
-		// Replace inline script with external reference
 		html = html.replace(
 			match[0],
 			'<script src="/sveltekit-init.js"></script>',
 		);
-		writeFileSync(htmlPath, html);
+		writeFileSync(html_path, html);
 
 		console.log('  Extracted inline script to sveltekit-init.js');
 	}
 }
 
-async function createZip(sourceDir, outPath) {
+async function create_zip(
+	source_dir: string,
+	out_path: string,
+): Promise<void> {
 	return new Promise((resolve, reject) => {
-		const output = createWriteStream(outPath);
+		const output = createWriteStream(out_path);
 		const archive = archiver('zip', { zlib: { level: 9 } });
 
 		output.on('close', resolve);
 		archive.on('error', reject);
 
 		archive.pipe(output);
-		archive.directory(sourceDir, false);
+		archive.directory(source_dir, false);
 		archive.finalize();
 	});
 }
 
-async function build() {
-	// Clean
+async function build(): Promise<void> {
 	if (existsSync(DIST_DIR)) {
 		rmSync(DIST_DIR, { recursive: true });
 	}
 
-	// Run SvelteKit build
 	console.log('Building SvelteKit app...');
 	execSync('pnpm build', { stdio: 'inherit' });
 
-	// Read version from package.json
 	const pkg = JSON.parse(
 		readFileSync(join(ROOT, 'package.json'), 'utf8'),
-	);
+	) as PackageJson;
 	const version = pkg.version;
 
-	// Update source manifests with version
-	for (const browser of ['chrome', 'firefox']) {
-		const srcManifestPath = join(
+	for (const browser of BROWSERS) {
+		const src_manifest_path = join(
 			ROOT,
 			'extension',
 			browser,
 			'manifest.json',
 		);
 		const manifest = JSON.parse(
-			readFileSync(srcManifestPath, 'utf8'),
-		);
+			readFileSync(src_manifest_path, 'utf8'),
+		) as Manifest;
 		manifest.version = version;
 		writeFileSync(
-			srcManifestPath,
+			src_manifest_path,
 			JSON.stringify(manifest, null, '\t') + '\n',
 		);
 	}
 	console.log(`Updated source manifests to version ${version}`);
 
-	// Build for each browser
-	for (const browser of ['chrome', 'firefox']) {
+	for (const browser of BROWSERS) {
 		console.log(`Packaging for ${browser}...`);
 
-		const browserDir = join(DIST_DIR, browser);
-		mkdirSync(browserDir, { recursive: true });
+		const browser_dir = join(DIST_DIR, browser);
+		mkdirSync(browser_dir, { recursive: true });
 
-		// Copy build output
-		cpSync(BUILD_DIR, browserDir, { recursive: true });
+		cpSync(BUILD_DIR, browser_dir, { recursive: true });
 
-		// Extract inline scripts for MV3 CSP compliance
-		extractInlineScripts(
-			join(browserDir, 'index.html'),
-			join(browserDir, 'sveltekit-init.js'),
+		extract_inline_scripts(
+			join(browser_dir, 'index.html'),
+			join(browser_dir, 'sveltekit-init.js'),
 		);
 
-		// Read and update manifest with version from package.json
-		const manifestPath = join(
+		const manifest_path = join(
 			ROOT,
 			'extension',
 			browser,
 			'manifest.json',
 		);
-		const manifest = JSON.parse(readFileSync(manifestPath, 'utf8'));
+		const manifest = JSON.parse(
+			readFileSync(manifest_path, 'utf8'),
+		) as Manifest;
 		manifest.version = version;
 
-		// Write manifest to output
-		const fs = await import('fs');
-		fs.writeFileSync(
-			join(browserDir, 'manifest.json'),
+		writeFileSync(
+			join(browser_dir, 'manifest.json'),
 			JSON.stringify(manifest, null, '\t'),
 		);
 
-		// Create zip for distribution
-		await createZip(
-			browserDir,
+		await create_zip(
+			browser_dir,
 			join(DIST_DIR, `svalettab-${browser}.zip`),
 		);
 		console.log(`Created svalettab-${browser}.zip`);
