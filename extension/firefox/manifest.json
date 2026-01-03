@@ -1,14 +1,16 @@
 {
 	"manifest_version": 3,
 	"name": "Svalettab",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Random color palettes with font samples. Get inspired.",
 	"browser_specific_settings": {
 		"gecko": {
 			"id": "svalettab@scottspence.com",
 			"strict_min_version": "109.0",
 			"data_collection_permissions": {
-				"required": ["none"]
+				"required": [
+					"none"
+				]
 			}
 		}
 	},
