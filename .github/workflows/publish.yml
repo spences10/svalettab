@@ -28,7 +28,7 @@ jobs:
         run: pnpm build:extension
 
       - name: Upload build artifacts
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v6
         with:
           name: extension-build
           path: dist-extension/
@@ -44,7 +44,7 @@ jobs:
           node-version: 24
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: extension-build
           path: dist-extension/
@@ -68,7 +68,7 @@ jobs:
           node-version: 24
 
       - name: Download build artifacts
-        uses: actions/download-artifact@v4
+        uses: actions/download-artifact@v7
         with:
           name: extension-build
           path: dist-extension/
