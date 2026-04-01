@@ -49,7 +49,7 @@ importers:
         version: 5.2.8
       '@fontsource-variable/climate-crisis':
         specifier: ^5.2.11
-        version: 5.2.11
+        version: 5.2.12
       '@fontsource-variable/comfortaa':
         specifier: ^5.2.8
         version: 5.2.8
@@ -562,8 +562,8 @@ packages:
   '@fontsource-variable/brygada-1918@5.2.8':
     resolution: {integrity: sha512-uJVruRjPIzihO6VuHeVhe8c+HAyYfvhr7h6ewSzeQ6Pqdspr86zh9p3+SZucUNoiSwy7fgaiei5eqx8+eePeIg==}
 
-  '@fontsource-variable/climate-crisis@5.2.11':
-    resolution: {integrity: sha512-+UMP8UO1XVYo8QaOejdPtB+Eyzl6Mm/JPkvVS2mr1mZL3HX5XCIlNwQR0oF8Yx/MN7FgtAVUt/3xpShiJEG3Ng==}
+  '@fontsource-variable/climate-crisis@5.2.12':
+    resolution: {integrity: sha512-CuQMDViWOI/Llw9Hhj2/pKelKxtR0uWZBt/SgZyIwww5l9znYo9riwhiUVOxLiVynKGwlHMtzWULUdFBsXe6Zw==}
 
   '@fontsource-variable/comfortaa@5.2.8':
     resolution: {integrity: sha512-8YqOYbeHxywYtMD/AtNc7SHTIk3UufmYdgwVHBwFUe5wxjT7QM1NJ64M5M+qtNTenPEkQl8JU5Be3+EZl8dhMA==}
@@ -2912,7 +2912,7 @@ snapshots:
 
   '@fontsource-variable/brygada-1918@5.2.8': {}
 
-  '@fontsource-variable/climate-crisis@5.2.11': {}
+  '@fontsource-variable/climate-crisis@5.2.12': {}
 
   '@fontsource-variable/comfortaa@5.2.8': {}
 
