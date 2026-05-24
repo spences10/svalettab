@@ -9,6 +9,7 @@ export default {
 		printWidth: 70,
 		trailingComma: 'all',
 		proseWrap: 'always',
+		svelte: true,
 	},
 	lint: {
 		ignorePatterns: [
