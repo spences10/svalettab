@@ -1,5 +1,12 @@
 # svalettab
 
+## 0.0.3
+
+### Patch Changes
+
+- cf451e5: Switch project tooling from ESLint and Prettier to
+  vite-plus check and vp exec workflows.
+
 ## 0.0.2
 
 ### Patch Changes
