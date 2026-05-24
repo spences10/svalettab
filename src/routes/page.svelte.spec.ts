@@ -4,10 +4,12 @@ import { render } from 'vitest-browser-svelte';
 import Page from './+page.svelte';
 
 describe('/+page.svelte', () => {
-	it('should render h1', async () => {
+	it('should render the refresh button', async () => {
 		render(Page);
 
-		const heading = page.getByRole('heading', { level: 1 });
-		await expect.element(heading).toBeInTheDocument();
+		const refresh_button = page.getByRole('button', {
+			name: 'Generate new palette (press Space or R)',
+		});
+		await expect.element(refresh_button).toBeInTheDocument();
 	});
 });

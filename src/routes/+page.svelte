@@ -133,7 +133,7 @@
 	{#if !show_cards}
 		<div class="loader" out:fade={{ duration: 200 }}>
 			<div class="loader-grid">
-				{#each { length: 9 } as _, i}
+				{#each Array.from({ length: 9 }, (_, i) => i) as i (i)}
 					<div
 						class="loader-dot"
 						style="background-color: {get_loader_color(i)};"
@@ -154,7 +154,6 @@
 				{color}
 				font={fonts[i]}
 				index={i}
-				{generation}
 				{flipped}
 				revealed={show_cards}
 				on_copy_hex={copy_hex}
@@ -176,7 +175,7 @@
 				class="color-swatches"
 				in:fly={{ y: 20, duration: 300, easing: backOut }}
 			>
-				{#each palette.colors as color}
+				{#each palette.colors as color, i (`${color}-${i}`)}
 					<div
 						class="swatch"
 						style="background-color: {color};"
@@ -413,7 +412,7 @@
 		}}
 	>
 		<div class="loader-icon">
-			{#each { length: 9 } as _, i}
+			{#each Array.from({ length: 9 }, (_, i) => i) as i (i)}
 				<span style="background-color: {palette.colors[i % 5]};"
 				></span>
 			{/each}

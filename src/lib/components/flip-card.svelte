@@ -12,21 +12,13 @@
 		color: string;
 		font: Font;
 		index: number;
-		generation: number;
 		flipped: boolean;
 		revealed: boolean;
 		on_copy_hex: (hex: string) => void;
 	}
 
-	let {
-		color,
-		font,
-		index,
-		generation,
-		flipped,
-		revealed,
-		on_copy_hex,
-	}: Props = $props();
+	let { color, font, index, flipped, revealed, on_copy_hex }: Props =
+		$props();
 
 	const text_color = $derived(get_contrast_color(color));
 	const formatted_color = $derived(

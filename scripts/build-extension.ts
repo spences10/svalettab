@@ -1,5 +1,5 @@
 #!/usr/bin/env -S node --experimental-strip-types
-import archiver from 'archiver';
+import { ZipArchive } from 'archiver';
 import { execSync } from 'node:child_process';
 import {
 	cpSync,
@@ -17,7 +17,6 @@ const BUILD_DIR = join(ROOT, 'build');
 const DIST_DIR = join(ROOT, 'dist-extension');
 
 const BROWSERS = ['chrome', 'firefox'] as const;
-type Browser = (typeof BROWSERS)[number];
 
 interface PackageJson {
 	version: string;
@@ -65,7 +64,7 @@ async function create_zip(
 ): Promise<void> {
 	return new Promise((resolve, reject) => {
 		const output = createWriteStream(out_path);
-		const archive = archiver('zip', { zlib: { level: 9 } });
+		const archive = new ZipArchive({ zlib: { level: 9 } });
 
 		output.on('close', resolve);
 		archive.on('error', reject);
