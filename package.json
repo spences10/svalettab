@@ -86,7 +86,7 @@
 		"@types/node": "^25.9.1",
 		"@vitest/browser-playwright": "^4.1.7",
 		"archiver": "^8.0.0",
-		"oxfmt": "^0.51.0",
+		"oxfmt": "^0.52.0",
 		"playwright": "^1.60.0",
 		"svelte": "^5.55.9",
 		"svelte-check": "^4.4.8",
