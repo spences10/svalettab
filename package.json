@@ -24,7 +24,7 @@
 		"release": "git tag v$npm_package_version && git push origin v$npm_package_version"
 	},
 	"devDependencies": {
-		"@changesets/cli": "^2.31.0",
+		"@changesets/cli": "^3.0.0",
 		"@fontsource-variable/albert-sans": "^5.2.8",
 		"@fontsource-variable/alegreya": "^5.2.8",
 		"@fontsource-variable/anybody": "^5.2.7",
