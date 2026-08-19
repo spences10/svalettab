@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --experimental-strip-types
+#!/usr/bin/env node
 /**
  * Publish extension to Firefox Add-ons (AMO) using the API directly
  * https://addons-server.readthedocs.io/en/latest/topics/api/addons.html

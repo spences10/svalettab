@@ -6,7 +6,7 @@
 	"scripts": {
 		"dev": "vp exec vite dev",
 		"build": "vp exec vite build",
-		"build:extension": "node --experimental-strip-types scripts/build-extension.ts",
+		"build:extension": "node scripts/build-extension.ts",
 		"preview": "vp exec vite preview",
 		"prepare": "vp exec svelte-kit sync || echo ''",
 		"check": "vp check && vp exec svelte-kit sync && vp exec svelte-check --tsconfig ./tsconfig.json",

@@ -1,5 +1,5 @@
-#!/usr/bin/env -S node --experimental-strip-types
-import { ZipArchive } from 'archiver';
+#!/usr/bin/env node
+import * as archiver from 'archiver';
 import { execSync } from 'node:child_process';
 import {
 	cpSync,
@@ -11,6 +11,12 @@ import {
 	writeFileSync,
 } from 'node:fs';
 import { join } from 'node:path';
+
+const { ZipArchive } = archiver as unknown as {
+	ZipArchive: new (
+		options?: archiver.ArchiverOptions,
+	) => archiver.Archiver;
+};
 
 const ROOT = process.cwd();
 const BUILD_DIR = join(ROOT, 'build');

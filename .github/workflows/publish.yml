@@ -16,7 +16,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: latest
           cache: 'pnpm'
 
       - name: Install dependencies
@@ -39,7 +39,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: latest
 
       - name: Download build artifacts
         uses: actions/download-artifact@v8
@@ -54,7 +54,7 @@ jobs:
           CHROME_CLIENT_ID: ${{ secrets.CHROME_CLIENT_ID }}
           CHROME_CLIENT_SECRET: ${{ secrets.CHROME_CLIENT_SECRET }}
           CHROME_REFRESH_TOKEN: ${{ secrets.CHROME_REFRESH_TOKEN }}
-        run: node --experimental-strip-types scripts/publish-chrome.ts
+        run: node scripts/publish-chrome.ts
 
   publish-firefox:
     needs: build
@@ -64,7 +64,7 @@ jobs:
 
       - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: latest
 
       - name: Download build artifacts
         uses: actions/download-artifact@v8
@@ -76,5 +76,4 @@ jobs:
         env:
           FIREFOX_JWT_ISSUER: ${{ secrets.FIREFOX_JWT_ISSUER }}
           FIREFOX_JWT_SECRET: ${{ secrets.FIREFOX_JWT_SECRET }}
-        run:
-          node --experimental-strip-types scripts/publish-firefox.ts
+        run: node scripts/publish-firefox.ts

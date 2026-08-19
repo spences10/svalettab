@@ -1,4 +1,4 @@
-#!/usr/bin/env -S node --experimental-strip-types
+#!/usr/bin/env node
 /// <reference types="node" />
 /**
  * Publish an extension with the Chrome Web Store API v2.
