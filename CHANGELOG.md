@@ -1,5 +1,12 @@
 # svalettab
 
+## 0.0.4
+
+### Patch Changes
+
+- bdf8184: Migrate to SvelteKit 3 RC and modernize extension builds,
+  publishing automation, continuous integration, and configuration.
+
 ## 0.0.3
 
 ### Patch Changes
