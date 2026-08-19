@@ -1,8 +1,25 @@
 import { sveltekit } from '@sveltejs/kit/vite';
+import { vitePreprocess } from '@sveltejs/vite-plugin-svelte';
 import { playwright } from '@vitest/browser-playwright';
 
+const adapter = (
+	(await import('sveltekit-adapter-chrome-extension')) as unknown as {
+		default: typeof import('sveltekit-adapter-chrome-extension');
+	}
+).default;
+
 export default {
-	plugins: [sveltekit()],
+	plugins: [
+		sveltekit({
+			preprocess: vitePreprocess(),
+			adapter: adapter({
+				pages: 'build',
+				assets: 'build',
+				precompress: false,
+			}),
+			appDir: 'app',
+		}),
+	],
 	fmt: {
 		useTabs: true,
 		singleQuote: true,

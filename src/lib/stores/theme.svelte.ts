@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 
 type Theme = 'system' | 'light' | 'dark';
 type ResolvedTheme = 'light' | 'dark';

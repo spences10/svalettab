@@ -4,9 +4,9 @@
 		get_contrast_color,
 		get_contrast_ratio,
 		get_wcag_rating,
-	} from '$lib/contrast';
-	import { get_fontsource_url, type Font } from '$lib/fonts';
-	import { format_store } from '$lib/stores/format.svelte';
+	} from '#lib/contrast.ts';
+	import { get_fontsource_url, type Font } from '#lib/fonts.ts';
+	import { format_store } from '#lib/stores/format.svelte.ts';
 
 	interface Props {
 		color: string;

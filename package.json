@@ -3,6 +3,9 @@
 	"version": "0.0.3",
 	"private": true,
 	"type": "module",
+	"imports": {
+		"#lib/*": "./src/lib/*"
+	},
 	"scripts": {
 		"dev": "vp exec vite dev",
 		"build": "vp exec vite build",
@@ -80,7 +83,7 @@
 		"@fontsource-variable/work-sans": "^5.2.8",
 		"@playwright/test": "^1.60.0",
 		"@sveltejs/adapter-static": "^3.0.10",
-		"@sveltejs/kit": "^2.60.1",
+		"@sveltejs/kit": "3.0.0-next.23",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
 		"@types/archiver": "^7.0.0",
 		"@types/node": "^25.9.1",

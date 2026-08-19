@@ -1,5 +1,5 @@
-import { browser } from '$app/environment';
-import type { ColorFormat } from '$lib/contrast';
+import { browser } from '$app/env';
+import type { ColorFormat } from '#lib/contrast.ts';
 
 const STORAGE_KEY = 'svalettab-format';
 

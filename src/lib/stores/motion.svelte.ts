@@ -1,4 +1,4 @@
-import { browser } from '$app/environment';
+import { browser } from '$app/env';
 
 function get_prefers_reduced_motion(): boolean {
 	if (!browser) return false;

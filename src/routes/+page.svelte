@@ -1,11 +1,11 @@
 <script lang="ts">
-	import FlipCard from '$lib/components/flip-card.svelte';
-	import type { ColorFormat } from '$lib/contrast';
-	import { get_random_fonts, type Font } from '$lib/fonts';
-	import { get_random_palette, type Palette } from '$lib/palettes';
-	import { format_store } from '$lib/stores/format.svelte';
-	import { loader_store } from '$lib/stores/loader.svelte';
-	import { theme_store } from '$lib/stores/theme.svelte';
+	import FlipCard from '#lib/components/flip-card.svelte';
+	import type { ColorFormat } from '#lib/contrast.ts';
+	import { get_random_fonts, type Font } from '#lib/fonts.ts';
+	import { get_random_palette, type Palette } from '#lib/palettes.ts';
+	import { format_store } from '#lib/stores/format.svelte.ts';
+	import { loader_store } from '#lib/stores/loader.svelte.ts';
+	import { theme_store } from '#lib/stores/theme.svelte.ts';
 	import { onMount } from 'svelte';
 	import { backOut } from 'svelte/easing';
 	import { fade, fly, scale } from 'svelte/transition';

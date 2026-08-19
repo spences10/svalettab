@@ -1,7 +1,7 @@
 <script lang="ts">
-	import { browser } from '$app/environment';
-	import favicon from '$lib/assets/favicon.svg';
-	import { theme_store } from '$lib/stores/theme.svelte';
+	import { browser } from '$app/env';
+	import favicon from '#lib/assets/favicon.svg';
+	import { theme_store } from '#lib/stores/theme.svelte.ts';
 	import './layout.css';
 	// ==========================================
 	// SANS-SERIF FONTS
