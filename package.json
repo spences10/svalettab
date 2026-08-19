@@ -82,7 +82,7 @@
 		"@sveltejs/adapter-static": "^3.0.10",
 		"@sveltejs/kit": "^2.60.1",
 		"@sveltejs/vite-plugin-svelte": "^7.1.2",
-		"@types/archiver": "^7.0.0",
+		"@types/archiver": "^8.0.0",
 		"@types/node": "^25.9.1",
 		"@vitest/browser-playwright": "^4.1.7",
 		"archiver": "^8.0.0",
