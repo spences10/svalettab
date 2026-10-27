@@ -324,7 +324,7 @@ importers:
         version: 5.3.0
       '@fontsource-variable/source-code-pro':
         specifier: ^5.3.0
-        version: 5.3.0
+        version: 5.3.1
       '@fontsource-variable/space-grotesk':
         specifier: ^5.3.0
         version: 5.3.0
@@ -631,8 +631,8 @@ packages:
   '@fontsource-variable/sora@5.3.0':
     resolution: {integrity: sha512-h8kHta4Z8SkfUGeI82TUy1n3rbrKpBRGwuk4t4qCwto5oEHxlbOFD2yGP+Df5fbmTXwKGn+o667vYp0E4K8Whw==}
 
-  '@fontsource-variable/source-code-pro@5.3.0':
-    resolution: {integrity: sha512-CxzAbqtNrQ6EQXTb9ovRZIRiOhFPcBQhNKla58K5UV6IMoL/ROkWxXDSBOa/frIDLuV4B5PLHI4R1e9SWVinYg==}
+  '@fontsource-variable/source-code-pro@5.3.1':
+    resolution: {integrity: sha512-N0nZDizh8CQ19+AHHA8Ssb1i/aQf4N2lpRl3qZVH4/9f1yNgWzTkBFpc26v+QQr2hm4By4aiv597BCoEg2SDQg==}
 
   '@fontsource-variable/space-grotesk@5.3.0':
     resolution: {integrity: sha512-2IxmvfB08i9vnGB3Ym/AXvhRE+8XOjWMXIyDum03c+tPwH0FUoMNQfGpU8NXPxjbws0Vvss3AH0Zqt4oJBBAdw==}
@@ -2754,7 +2754,7 @@ snapshots:
 
   '@fontsource-variable/sora@5.3.0': {}
 
-  '@fontsource-variable/source-code-pro@5.3.0': {}
+  '@fontsource-variable/source-code-pro@5.3.1': {}
 
   '@fontsource-variable/space-grotesk@5.3.0': {}
 
