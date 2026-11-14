@@ -9,3 +9,4 @@ minimumReleaseAge: 2880
 peerDependencyRules:
   allowedVersions:
     '@sveltejs/adapter-static': ^4.0.0-next.0
+    vite: ^1.6.0
