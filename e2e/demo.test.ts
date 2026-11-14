@@ -1,6 +1,10 @@
 import { expect, test } from '@playwright/test';
 
-test('home page has expected h1', async ({ page }) => {
+test('home page shows the palette generator', async ({ page }) => {
 	await page.goto('/');
-	await expect(page.locator('h1')).toBeVisible();
+	await expect(
+		page.getByRole('button', {
+			name: 'Generate new palette (press Space or R)',
+		}),
+	).toBeVisible();
 });
